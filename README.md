@@ -9,4 +9,4 @@ A Bullet Hell genre game, in which the player controls an avatar that is able to
 
 this is to test merge (Andrew)
 (Test commit 1)
-(Test commit 2)
+Sudman does like this line
