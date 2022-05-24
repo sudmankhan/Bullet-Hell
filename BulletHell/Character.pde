@@ -7,7 +7,7 @@ public class Character {
   }
   
   void die() {
-  
+    
   }
   
   void takeDamage() {

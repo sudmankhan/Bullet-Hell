@@ -51,26 +51,26 @@ public class Player extends Character {
   }
   
   void moveLeft() {
-    super.xPos -= 30;
+    xPos -= 30;
   }
   
   void moveRight() {
-    super.xPos += 30;
+    xPos += 30;
   }
   
   void moveUp() {
-    super.yPos -= 30;
+    yPos -= 30;
   }
   
   void moveDown() { 
-    super.yPos += 30;
+    yPos += 30;
   }
   
   //Sometimes, bullethell wasd controls can be jerky and hard to control and mouse controls are preferred as an alternative.
   void mouseMove() {
-    if (super.xPos != mouseX || super.yPos != mouseY) {
-      super.xPos = mouseX;
-      super.yPos = mouseY;
+    if (xPos != mouseX || yPos != mouseY) {
+      xPos = mouseX;
+      yPos = mouseY;
     }
   }
 
