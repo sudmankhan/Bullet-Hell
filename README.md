@@ -12,3 +12,6 @@ Dev Log
 
 5/23/22
 Sudman - Made the game files and classes that we needed based on the UML diagram. Wrote constructors for each class except Bullet. Wrote display methods for player and enemy and tested them.
+
+5/24/22
+(Morning) Andrew - Wrote control methods for Player. In testing process. Mouse movement moves fine, wasd movement currently not working. Switching between modes is also not working. Will fix bugs later.
