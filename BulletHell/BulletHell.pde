@@ -10,7 +10,7 @@ void setup() {
 }
 
 void mouseClicked() {
-  enemiesInStage.add(new Enemy(600,200));
+  //enemiesInStage.add(new Enemy(600,200));
 }
 
 void draw() {
