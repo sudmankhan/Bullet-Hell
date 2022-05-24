@@ -6,8 +6,13 @@ public class Player extends Character {
     super(x,y);
   }
   
+  void setup() {
+    circle(xPos, yPos, 30);
+  }
+  
   void display() {
     circle(xPos, yPos, 30);
+    mouseMove();
   }
   
   void shoot(int x, int y) {
@@ -26,8 +31,16 @@ public class Player extends Character {
   
   }
   
-  void moveDown() {
+  void moveDown() { 
   
+  }
+  
+  //Sometimes, bullethell wasd controls can be jerky and hard to control and mouse controls are preferred as an alternative.
+  void mouseMove() {
+    if (super.xPos != mouseX || super.yPos != mouseY) {
+      super.xPos = mouseX;
+      super.yPos = mouseY;
+    }
   }
 
 }
