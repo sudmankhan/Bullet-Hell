@@ -12,38 +12,38 @@ public class Player extends Character {
     movementMode = 0;
   }
   
-  void keyPressed() {
-    if (key == BACKSPACE) {
-       if (movementMode == 1) {
-          movementMode = 0; 
-       }
-       else {
-        movementMode = 1; 
-       }
-    }
-    if (key == 'w') { //w
-      moveUp();
-    }
-    if (key == 'a') { //a
-      moveLeft();
-    }
-    if (key == 's') { //s
-      moveDown();
-    }
-    if (key == 'd') { //d
-      moveRight();
-    }
-  }
+  //void keyPressed() {
+  //  //if (key == BACKSPACE) {
+  //  //   if (movementMode == 1) {
+  //  //      movementMode = 0; 
+  //  //   }
+  //  //   else {
+  //  //    movementMode = 1; 
+  //  //   }
+  //  //}
+  //  if (key == 'w') { //w
+  //    moveUp();
+  //  }
+  //  if (key == 'a') { //a
+  //    moveLeft();
+  //  }
+  //  if (key == 's') { //s
+  //    moveDown();
+  //  }
+  //  if (key == 'd') { //d
+  //    moveRight();
+  //  }
+  //}
   
   void display() {
     fill(255, 255, 255);
     circle(xPos, yPos, 30);
-    textSize(20);
-    fill(0,0,0);
-    text("Movement Mode: " + movementMode, 20, 20);
-    if (movementMode == 0){
-      mouseMove();
-    }
+    //textSize(20);
+    //fill(0,0,0);
+    //text("Movement Mode: " + movementMode, 20, 20);
+    //if (movementMode == 0){
+    //  mouseMove();
+    //}
   }
   
   void shoot(int x, int y) {
@@ -51,19 +51,24 @@ public class Player extends Character {
   }
   
   void moveLeft() {
-    super.xPos -= 30;
+    xPos -= 20;
+  }
+  
+  void moveUpLeft(){
+    xPos -= 20;
+    yPos += 20;
   }
   
   void moveRight() {
-    super.xPos += 30;
+    xPos += 20;
   }
   
   void moveUp() {
-    super.yPos -= 30;
+    yPos -= 20;
   }
   
   void moveDown() { 
-    super.yPos += 30;
+    yPos += 20;
   }
   
   //Sometimes, bullethell wasd controls can be jerky and hard to control and mouse controls are preferred as an alternative.
