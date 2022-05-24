@@ -23,7 +23,6 @@ public class Player extends Character {
     }
     if (key == 'w') { //w
       moveUp();
-      System.out.println("hi");
     }
     if (key == 'a') { //a
       moveLeft();
