@@ -16,19 +16,35 @@ void mouseClicked() {
 }
 
 
-void keyPressed()
-{
-  if (key=='a')
-    keys[0]=true;
-  if (key=='b')
-    keys[1]=true;
+void keyPressed() {
+  if (key == 'w') {
+    keysPressed[0] = true;
+  }
+  if (key == 'a') {
+    keysPressed[1] = true;
+  }
+  if (key == 's') {
+    keysPressed[2] = true;
+  }
+  if (key == 'd') {
+    keysPressed[3] = true;
+  }
 }
-void keyReleased()
-{
-  if (key=='a')
-    keys[0]=false;
-  if (key=='s')
-    keys[1]=false;
+
+
+void keyReleased() {
+  if (key == 'w') {
+    keysPressed[0] = false;
+  }
+  if (key == 'a') {
+    keysPressed[1] = false;
+  }
+  if (key == 's') {
+    keysPressed[2] = false;
+  }
+  if (key == 'd') {
+    keysPressed[3] = false;
+  }
 }
 
 
@@ -61,5 +77,21 @@ void keyReleased()
 void draw() {
   background(255);
   player.display();
+  if (keysPressed[0] && keysPressed[1]) {
+    player.moveUpLeft();
+  }
+  if (keysPressed[0]) {
+    player.moveUp();
+  }
+  if (keysPressed[1]) {
+    player.moveLeft();
+  }
+  if (keysPressed[2]) {
+    player.moveDown();
+  }
+  if (keysPressed[3]) {
+    player.moveRight();
+  }
+  
   //enemiesInStage.get(0).display();
 }
