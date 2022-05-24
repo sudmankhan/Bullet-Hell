@@ -2,23 +2,28 @@ public class Player extends Character {
   int health;
   float shootingSpeed; 
   
-  shoot(int x, int y) {
+  public Player(int x, int y){
+    super(x,y);
+    circle(xPos, yPos, 30);
+  } 
+  
+  void shoot(int x, int y) {
   
   }
   
-  moveLeft() {
+  void moveLeft() {
   
   }
   
-  moveRight() {
+  void moveRight() {
     
   }
   
-  moveUp() {
+  void moveUp() {
   
   }
   
-  moveDown() {
+  void moveDown() {
   
   }
 
