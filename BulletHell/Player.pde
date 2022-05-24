@@ -4,8 +4,11 @@ public class Player extends Character {
   
   public Player(int x, int y){
     super(x,y);
+  }
+  
+  void display() {
     circle(xPos, yPos, 30);
-  } 
+  }
   
   void shoot(int x, int y) {
   
