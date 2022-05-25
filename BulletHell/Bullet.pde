@@ -20,5 +20,12 @@ public class Bullet {
       display();
     }
   }
+  
+  void shootDown() {
+    if (ypos < height - 10) {
+      ypos += bulletYSpeed;
+      display();
+    }
+  }
 
 }

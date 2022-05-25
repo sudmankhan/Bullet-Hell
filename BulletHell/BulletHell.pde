@@ -11,6 +11,7 @@ void setup() {
   player = new Player(600, 600);
   //enemiesInStage.add(new Enemy(600,200));
   bulletsInStage = new ArrayList<Bullet>();
+  bulletsEnemy = new ArrayList<Bullet>();
 }
 
 void mouseClicked() {
