@@ -78,7 +78,7 @@ void keyReleased() {
 //}
 
 void draw() {
-  background(255);
+  background(0);
   player.display();
   //for (int i = 0; i < bulletsInStage.size(); i++) {
   //  Bullet bullet = bulletsInStage.get(i);
