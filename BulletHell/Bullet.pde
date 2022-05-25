@@ -1,6 +1,21 @@
 public class Bullet {
-  int x, y;
+  int xpos, ypos;
   int bulletXSpeed, bulletYSpeed;
-   
-  void shootUp() {}
+
+  public Bullet(int x, int y) {
+    xpos = x;
+    ypos = y;
+    bulletXSpeed = 10;
+    bulletYSpeed = 5;
+  }
+
+  void display() {
+    fill(0);
+    circle(xpos, ypos, 10);
+  }
+
+  void shootUp() {
+    ypos -= bulletYSpeed;
+    display();
+  }
 }

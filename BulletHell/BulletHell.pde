@@ -1,5 +1,6 @@
 int stageNumber;
 ArrayList<Enemy> enemiesInStage;
+ArrayList<Bullet> bulletsInStage;
 Player player;
 boolean[] keysPressed;
 
@@ -9,10 +10,12 @@ void setup() {
   keysPressed = new boolean[4]; 
   player = new Player(600, 600);
   //enemiesInStage.add(new Enemy(600,200));
+  bulletsInStage = new ArrayList<Bullet>();
 }
 
 void mouseClicked() {
   //enemiesInStage.add(new Enemy(600,200));
+  bulletsInStage.add(new Bullet(player.xPos,player.yPos-20));
 }
 
 
@@ -77,9 +80,13 @@ void keyReleased() {
 void draw() {
   background(255);
   player.display();
-  if (keysPressed[0] && keysPressed[1]) {
-    player.moveUpLeft();
-  }
+  //for (int i = 0; i < bulletsInStage.size(); i++) {
+  //  Bullet bullet = bulletsInStage.get(i);
+  //  bullet.shootUp();
+  //}
+  //if (keysPressed[0] && keysPressed[1]) {
+  //  player.moveUpLeft();
+  //}
   if (keysPressed[0]) {
     player.moveUp();
   }
@@ -92,6 +99,12 @@ void draw() {
   if (keysPressed[3]) {
     player.moveRight();
   }
-  
+  for (int i = 0; i < bulletsInStage.size(); i++) {
+    Bullet bullet = bulletsInStage.get(i);
+    //while (bullet.ypos != 0) {
+      //bullet.display();
+      bullet.shootUp();
+    //}
+  }
   //enemiesInStage.get(0).display();
 }
