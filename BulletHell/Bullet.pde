@@ -1,3 +1,5 @@
+int countdown;
+
 public class Bullet {
   int xpos, ypos;
   int bulletXSpeed, bulletYSpeed;
@@ -8,7 +10,11 @@ public class Bullet {
     bulletXSpeed = 10;
     bulletYSpeed = 5;
   }
-
+  
+  void setCountdown(int a) {
+    countdown = a;
+  }
+  
   void display() {
     fill(245, 215, 66);
     circle(xpos, ypos, 10);
