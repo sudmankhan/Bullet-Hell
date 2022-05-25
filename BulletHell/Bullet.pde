@@ -10,12 +10,14 @@ public class Bullet {
   }
 
   void display() {
-    fill(0);
+    fill(245, 215, 66);
     circle(xpos, ypos, 10);
   }
 
   void shootUp() {
-    ypos -= bulletYSpeed;
-    display();
+    if (ypos > 10) {
+      ypos -= bulletYSpeed;
+      display();
+    }
   }
 }
