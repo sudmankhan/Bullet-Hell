@@ -3,6 +3,7 @@ ArrayList<Enemy> enemiesInStage;
 ArrayList<Bullet> bulletsInStage;
 Player player;
 boolean[] keysPressed;
+boolean mouseHeld;
 
 void setup() {
   size(1200, 800);
@@ -13,11 +14,15 @@ void setup() {
   bulletsInStage = new ArrayList<Bullet>();
 }
 
-void mouseClicked() {
+void mousePressed() {
   //enemiesInStage.add(new Enemy(600,200));
-  bulletsInStage.add(new Bullet(player.xPos,player.yPos-20));
+  //bulletsInStage.add(new Bullet(player.xPos,player.yPos-20));
+  mouseHeld = true;
 }
 
+void mouseReleased() {
+  mouseHeld = false;
+}
 
 void keyPressed() {
   if (key == 'w') {
@@ -49,7 +54,6 @@ void keyReleased() {
     keysPressed[3] = false;
   }
 }
-
 
 //void keyPressed() {
 //  //if (key == BACKSPACE) {
@@ -98,6 +102,9 @@ void draw() {
   }
   if (keysPressed[3]) {
     player.moveRight();
+  }
+  if(mouseHeld) {
+    bulletsInStage.add(new Bullet(player.xPos,player.yPos-20));
   }
   for (int i = 0; i < bulletsInStage.size(); i++) {
     Bullet bullet = bulletsInStage.get(i);
