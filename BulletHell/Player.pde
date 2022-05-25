@@ -51,24 +51,19 @@ public class Player extends Character {
   }
   
   void moveLeft() {
-    xPos -= 20;
+    xPos -= 15;
   }
-  
-  void moveUpLeft(){
-    xPos -= 20;
-    yPos += 20;
-  }
-  
+    
   void moveRight() {
-    xPos += 20;
+    xPos += 15;
   }
   
   void moveUp() {
-    yPos -= 20;
+    yPos -= 15;
   }
   
   void moveDown() { 
-    yPos += 20;
+    yPos += 15;
   }
   
   //Sometimes, bullethell wasd controls can be jerky and hard to control and mouse controls are preferred as an alternative.
