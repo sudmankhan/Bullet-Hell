@@ -105,6 +105,7 @@ void draw() {
   }
   if(mouseHeld) {
     bulletsInStage.add(new Bullet(player.xPos,player.yPos-20));
+    
   }
   for (int i = 0; i < bulletsInStage.size(); i++) {
     Bullet bullet = bulletsInStage.get(i);
