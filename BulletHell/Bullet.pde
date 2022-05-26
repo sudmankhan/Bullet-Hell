@@ -16,20 +16,25 @@ public class Bullet {
     xpos = x;
     ypos = y;
     float angle = PI / 2; //In the event that some weird glitch happens, let's hope that the bullets will at least shoot up.
+    float angle2 = angle;
     if (targetX - xpos != 0) {
-      angle = atan(Math.abs((targetY - ypos))/Math.abs((targetX - xpos)));
+      angle = atan(Math.abs((targetY - ypos))/Math.abs((targetX - xpos))); //finds a first quadrant angle.
+      System.out.println("Angle:" + (angle * 180 / PI));
       if ((targetY - ypos > 0) && (targetX - xpos < 0)) {
-        angle = PI - angle;
+        angle2 = PI - angle;
+        System.out.println("Angle2:" + (angle2 * 180 / PI));
       }
       if ((targetY - ypos < 0) && (targetX - xpos < 0)) {
-         angle = PI + angle; 
+         angle2 = PI + angle; 
+         System.out.println("Angle2:" + (angle2 * 180 / PI));
       }
       if ((targetY - ypos < 0) && (targetX - xpos > 0)) {
-         angle = atan((targetY-ypos)/(targetX - xpos)); 
+         angle2 = 2 * PI - angle;
+         System.out.println("Angle2:" + (angle2 * 180 / PI));
       }
     }
-    bulletXSpeed = 5 * cos(angle);
-    bulletYSpeed = 5 * sin(angle);
+    bulletXSpeed = 5 * cos(angle2);
+    bulletYSpeed = 5 * sin(angle2);
     countdown = 0;
   }
 
