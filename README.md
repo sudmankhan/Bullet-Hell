@@ -21,3 +21,6 @@ Sudman - Fixed keyboard control methods for Player. Wrote the constructor for th
 
 5/25/22
 Sudman - Players can now shoot while mouse is held down. Implemented a delay before each bullet is shot so its not basically a laser. Next, tried to write methods to shoot towards the mouse position but this one will take some more time to implement as it doesn't work properly yet.
+
+5/25/22
+Andrew - Fixed the methods for shooting towards the mouse position. Tried to create an enemy that would shoot bullets. It works to an extent that the enemy will now shoot bursts of bullets periodically but they're shot directly down and are very easy to dodge. Will add different attack patterns later. Must also implement way for the player to take damage and the enemy to take damage. Also need to differentiate player bullets and enemy bullets. Will stat working on that tomorrow.
