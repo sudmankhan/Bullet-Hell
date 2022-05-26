@@ -1,6 +1,5 @@
-int countdown;
-
 public class Bullet {
+  int countdown;
   int xpos, ypos;
   float bulletXSpeed, bulletYSpeed;
 
