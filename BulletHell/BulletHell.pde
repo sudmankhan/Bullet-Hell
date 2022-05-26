@@ -109,7 +109,7 @@ void draw() {
   if (keysPressed[3]) {
     player.moveRight();
   }
-  straightBulletsEnemy.add(new Bullet(mainEnemy.xPos, mainEnemy.yPos, player.xPos, player.yPos));
+  straightBulletsEnemy.add(new Bullet(mainEnemy.xPos + 15, mainEnemy.yPos + 30, player.xPos, player.yPos)); //Enemy is a square so it bases it off the top left corner.
   if (mouseHeld) {
     if (countdown == 0) {
       bulletsInStage.add(new Bullet(player.xPos, player.yPos, mouseX, mouseY));
