@@ -15,7 +15,7 @@ public class Bullet {
   public Bullet(int x, int y, int targetX, int targetY) {
     xpos = x;
     ypos = y;
-    float angle = 0;
+    float angle = PI / 2; //In the event that some weird glitch happens, let's hope that the bullets will at least shoot up.
     if (targetX - xpos != 0) {
       angle = atan(Math.abs((targetY - ypos))/Math.abs((targetX - xpos)));
       if ((targetY - ypos > 0) && (targetX - xpos < 0)) {
