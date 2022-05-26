@@ -4,7 +4,6 @@ ArrayList<Bullet> bulletsInStage;
 Player player;
 boolean[] keysPressed;
 boolean mouseHeld;
-int countdown;
 
 void setup() {
   size(1200, 800);
@@ -19,10 +18,10 @@ void mousePressed() {
   //enemiesInStage.add(new Enemy(600,200));
   //bulletsInStage.add(new Bullet(player.xPos,player.yPos-20));
   mouseHeld = true;
-  if (countdown == 0) {
-    //1 second timer
-    countdown+=60;
-  }
+  //if (countdown == 0) {
+  //  //1 second timer
+  //  countdown+=60;
+  //}
 }
 
 void mouseReleased() {
@@ -108,14 +107,26 @@ void draw() {
   if (keysPressed[3]) {
     player.moveRight();
   }
+
   if (mouseHeld) {
-    bulletsInStage.add(new Bullet(player.xPos, player.yPos-20));
+    if (countdown == 0) {
+      bulletsInStage.add(new Bullet(player.xPos, player.yPos-20));
+      countdown += 3;
+    }
+    else {
+      countdown--;
+    }
   }
+  //if (countdown > 0) {
+  //  countdown--;
+  //}
   for (int i = 0; i < bulletsInStage.size(); i++) {
     Bullet bullet = bulletsInStage.get(i);
     bullet.shootUp();
+    if (bullet.ypos <= 10) {
+      bulletsInStage.remove(i);
+    }
   }
-  stroke(0, 255, 255);
-  text(countdown, 20, 20);
+  text(bulletsInStage.size(), 20, 20);
   //enemiesInStage.get(0).display();
 }
