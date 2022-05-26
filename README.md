@@ -14,7 +14,7 @@ Dev Log
 Sudman - Made the game files and classes that we needed based on the UML diagram. Wrote constructors for each class except Bullet. Wrote display methods for player and enemy and tested them.
 
 5/23/22 - 5/24/22
-Andrew - Wrote control methods for Player. In testing process. Mouse movement moves fine, wasd movement currently not working. Switching between modes is also not working. Will fix bugs later. Tried fixing bullet class on my own branch. Didn't work out well. Sudman finished that before me so will have to pull from updated main branch and deal wiht a merge conflict tomorrow.
+Andrew - Wrote control methods for Player. In testing process. Mouse movement moves fine, wasd movement currently not working. Switching between modes is also not working. Will fix bugs later. Tried fixing bullet class on my own branch. Didn't work out well. Sudman finished that before me so will have to pull from updated main branch and deal with a merge conflict tomorrow.
 
 5/24/22
 Sudman - Fixed keyboard control methods for Player. Wrote the constructor for the bullet class and wrote the shoot method for bullets and made it so that players can now shoot bullets in a straight line. Made it so that players cannot go past the borders of the game window. Finally, changed the background color to black and the bullet color to yellow. Will probably change later with updated graphics.
@@ -23,4 +23,4 @@ Sudman - Fixed keyboard control methods for Player. Wrote the constructor for th
 Sudman - Players can now shoot while mouse is held down. Implemented a delay before each bullet is shot so its not basically a laser. Next, tried to write methods to shoot towards the mouse position but this one will take some more time to implement as it doesn't work properly yet.
 
 5/25/22
-Andrew - Fixed the methods for shooting towards the mouse position. Tried to create an enemy that would shoot bullets. It works to an extent that the enemy will now shoot bursts of bullets periodically but they're shot directly down and are very easy to dodge. Will add different attack patterns later. Must also implement way for the player to take damage and the enemy to take damage. Also need to differentiate player bullets and enemy bullets. Will stat working on that tomorrow.
+Andrew - Fixed the methods for shooting towards the mouse position. Tried to create an enemy that would shoot bullets. The enemy will now shoot bursts of bullets periodically but these bullets are shot directly down and are very easy to dodge. Will add different attack patterns later. Must also implement way for the player to take damage and the enemy to take damage. Also need to differentiate player bullets and enemy bullets. Will start working on that tomorrow.
