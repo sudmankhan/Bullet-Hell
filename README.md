@@ -18,3 +18,6 @@ Andrew - Wrote control methods for Player. In testing process. Mouse movement mo
 
 5/24/22
 Sudman - Fixed keyboard control methods for Player. Wrote the constructor for the bullet class and wrote the shoot method for bullets and made it so that players can now shoot bullets in a straight line. Made it so that players cannot go past the borders of the game window. Finally, changed the background color to black and the bullet color to yellow. Will probably change later with updated graphics.
+
+5/25/22
+Sudman - Players can now shoot while mouse is held down. Implemented a delay before each bullet is shot so its not basically a laser. Next, tried to write methods to shoot towards the mouse position but this one will take some more time to implement as it doesn't work properly yet.
