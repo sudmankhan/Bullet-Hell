@@ -9,10 +9,15 @@ public class Bullet {
     ypos = y;
     bulletXSpeed = 10;
     bulletYSpeed = 5;
+    countdown = 0;
   }
   
   void setCountdown(int a) {
     countdown = a;
+  }
+  
+  int getCountdown() {
+    return countdown;
   }
   
   void display() {
