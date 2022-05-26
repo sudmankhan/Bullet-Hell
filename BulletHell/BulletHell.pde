@@ -6,6 +6,7 @@ Player player;
 Enemy mainEnemy;
 boolean[] keysPressed;
 boolean mouseHeld;
+int timer;
 
 void setup() {
   size(1200, 800);
@@ -87,6 +88,8 @@ void draw() {
   background(0);
   player.display();
   mainEnemy.display();
+  text(timer,20,50);
+  timer++;
   //for (int i = 0; i < bulletsInStage.size(); i++) {
   //  Bullet bullet = bulletsInStage.get(i);
   //  bullet.shootUp();
@@ -115,9 +118,6 @@ void draw() {
       countdown--;
     }
   }
-  //if (countdown > 0) {
-  //  countdown--;
-  //}
   for (int i = 0; i < bulletsInStage.size(); i++) {
     Bullet bullet = bulletsInStage.get(i);
     bullet.shoot();
@@ -126,13 +126,15 @@ void draw() {
     }
   }
   text(bulletsInStage.size(), 20, 20);
-
   for (int j = 0; j < straightBulletsEnemy.size(); j++) {
     Bullet bullet = straightBulletsEnemy.get(j);
-    bullet.shootDown();
+    if (timer % 10 != 0) {
+      bullet.shootDown();
+      timer++;
+    }
     if (bullet.ypos <= 10 || bullet.ypos >= height-10 || bullet.xpos <= 20 || bullet.xpos >= width - 20) {
       straightBulletsEnemy.remove(j);
     }
-  }
   //enemiesInStage.get(0).display();
+}
 }
