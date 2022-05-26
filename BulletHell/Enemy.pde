@@ -11,7 +11,7 @@ public class Enemy extends Character {
     rect(xPos, yPos, 30, 30);
   }
   void shoot(Character target) {
-  
+    
   }
   
 }
