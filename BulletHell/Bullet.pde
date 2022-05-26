@@ -7,8 +7,8 @@ public class Bullet {
   public Bullet(int x, int y) {
     xpos = x;
     ypos = y;
-    bulletXSpeed = 5;
-    bulletYSpeed = 5;
+    bulletXSpeed = 10;
+    bulletYSpeed = 1;
     countdown = 0;
   }
 
@@ -22,10 +22,10 @@ public class Bullet {
         angle = PI - angle;
       }
       if ((targetY - ypos < 0) && (targetX - xpos < 0)) {
-         angle = PI + angle; 
+        angle = PI + angle;
       }
       if ((targetY - ypos < 0) && (targetX - xpos > 0)) {
-         angle = atan((targetY-ypos)/(targetX - xpos)); 
+        angle = atan((targetY-ypos)/(targetX - xpos));
       }
     }
     bulletXSpeed = 5 * cos(angle);

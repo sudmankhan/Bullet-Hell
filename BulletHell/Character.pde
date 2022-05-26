@@ -1,17 +1,20 @@
 public class Character {
   int xPos, yPos;
+  int health;
+  boolean dead;
   
   public Character(int x, int y) {
     xPos = x;
     yPos = y;
   }
   
-  void die() {
-    
+  boolean isDead() {
+    return dead;
   }
   
   void takeDamage() {
-    
+    if(
+    health--;
   }
   
 }
