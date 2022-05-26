@@ -15,8 +15,6 @@ void setup() {
 }
 
 void mousePressed() {
-  //enemiesInStage.add(new Enemy(600,200));
-  //bulletsInStage.add(new Bullet(player.xPos,player.yPos-20));
   mouseHeld = true;
 }
 
@@ -103,16 +101,26 @@ void draw() {
   if (keysPressed[3]) {
     player.moveRight();
   }
-  if(mouseHeld) {
-    bulletsInStage.add(new Bullet(player.xPos,player.yPos-20));
-    
+
+  if (mouseHeld) {
+    if (countdown == 0) {
+      bulletsInStage.add(new Bullet(player.xPos, player.yPos, mouseX, mouseY));
+      countdown += 3;
+    }
+    else {
+      countdown--;
+    }
   }
+  //if (countdown > 0) {
+  //  countdown--;
+  //}
   for (int i = 0; i < bulletsInStage.size(); i++) {
     Bullet bullet = bulletsInStage.get(i);
-    //while (bullet.ypos != 0) {
-      //bullet.display();
-      bullet.shootUp();
-    //}
+    bullet.shoot();
+    if (bullet.ypos <= 10 || bullet.ypos >= height-10 || bullet.xpos <= 20 || bullet.xpos >= width - 20) {
+      bulletsInStage.remove(i);
+    }
   }
+  text(bulletsInStage.size(), 20, 20);
   //enemiesInStage.get(0).display();
 }

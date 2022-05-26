@@ -2,7 +2,7 @@ int countdown;
 
 public class Bullet {
   int xpos, ypos;
-  int bulletXSpeed, bulletYSpeed;
+  float bulletXSpeed, bulletYSpeed;
 
 
   public Bullet(int xPos, int yPos, int xSpeed, int ySpeed){
@@ -40,14 +40,21 @@ public class Bullet {
   public Bullet(int x, int y) {
     xpos = x;
     ypos = y;
-    bulletXSpeed = 10;
+    bulletXSpeed = 5;
     bulletYSpeed = 5;
+    countdown = 0;
   }
-  
-  void setCountdown(int a) {
-    countdown = a;
+
+  public Bullet(int x, int y, int targetX, int targetY) {
+    xpos = x;
+    ypos = y;
+
+    float angle = atan((targetY - ypos)/(targetX - xpos));
+    bulletXSpeed = 5 * cos(angle);
+    bulletYSpeed = 5 * sin(angle);
+    countdown = 0;
   }
-  
+
   void display() {
     fill(245, 215, 66);
     circle(xpos, ypos, 10);
@@ -58,5 +65,11 @@ public class Bullet {
       ypos -= bulletYSpeed;
       display();
     }
+  }
+
+  void shoot() {
+    xpos += bulletXSpeed;
+    ypos += bulletYSpeed;
+    display();
   }
 }

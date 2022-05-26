@@ -10,5 +10,11 @@ public class Enemy extends Character {
   void display(){
     rect(xPos, yPos, 30, 30);
   }
+<<<<<<< HEAD
+=======
+  void shoot(Character target) {
+    
+  }
+>>>>>>> Sudman
   
 }
