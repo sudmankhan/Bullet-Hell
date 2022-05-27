@@ -124,11 +124,11 @@ void draw() {
   //straightBulletsEnemy.add(new Bullet(mainEnemy.xPos + 15, mainEnemy.yPos + 30, player.xPos, player.yPos)); //Enemy is a square so it bases it off the top left corner.
 
   if (mouseHeld) {
-    if (bulletsInStage.size() == 0) {
-      bulletsInStage.add(new Bullet(player.xPos, player.yPos, mouseX, mouseY));
-    } else if (bulletsInStage.size() > 0) {
-      Bullet prev = bulletsInStage.get(bulletsInStage.size()-1);
-      if (prev.countdown == 0) {
+    if (bulletsInStage.size() == 0) { //no bullets in stage
+      bulletsInStage.add(new Bullet(player.xPos, player.yPos, mouseX, mouseY)); //add a bullet.
+    } else if (bulletsInStage.size() > 0) { //if there are bullets
+      Bullet prev = bulletsInStage.get(bulletsInStage.size()-1); //previous bullet is the last bullet shot.
+      if (prev.countdown == 0) { //if the countdown is 0, add bullet.
         bulletsInStage.add(new Bullet(player.xPos, player.yPos, mouseX, mouseY));
         prev.countdown += 3;
       } else {
