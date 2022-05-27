@@ -20,21 +20,26 @@ public class Bullet {
     if (targetX - xpos != 0) {
       angle = atan(Math.abs((targetY - ypos))/Math.abs((targetX - xpos))); //finds a first quadrant angle.
       System.out.println("Angle:" + (angle * 180 / PI));
-      if ((targetY - ypos > 0) && (targetX - xpos < 0)) {
+      if ((targetY < ypos) && (targetX < xpos)) { //if shooting top left...?
         angle2 = PI - angle;
         System.out.println("Angle2:" + (angle2 * 180 / PI));
       }
-      if ((targetY - ypos < 0) && (targetX - xpos < 0)) {
+      else if ((targetY > ypos) && (targetX - xpos < 0)) {
          angle2 = PI + angle; 
          System.out.println("Angle2:" + (angle2 * 180 / PI));
       }
-      if ((targetY - ypos < 0) && (targetX - xpos > 0)) {
+      else if ((targetY > ypos) && (targetX > xpos)) { //if shooting bottom right, 
          angle2 = 2 * PI - angle;
          System.out.println("Angle2:" + (angle2 * 180 / PI));
       }
+      else {
+       angle2 = angle; 
+      }
     }
     bulletXSpeed = 5 * cos(angle2);
-    bulletYSpeed = 5 * sin(angle2);
+    bulletYSpeed = -5 * sin(angle2);
+    System.out.println("bulletYSpeed: " + bulletYSpeed);
+    System.out.println("bulletXSpeed: " + bulletXSpeed);
     countdown = 0;
   }
 
@@ -51,8 +56,8 @@ public class Bullet {
   }
 
   void shoot() {
-    xpos += bulletXSpeed;
-    ypos += bulletYSpeed;
+    xpos += bulletXSpeed; //go right by xspeed
+    ypos += bulletYSpeed; //go down by yspeed
     display();
   }
 

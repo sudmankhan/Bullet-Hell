@@ -90,7 +90,7 @@ void draw() {
   mainEnemy.display();
   text(timer,20,50);
   text("" + mouseX + "," +mouseY, mouseX, mouseY); //Coordinates at the mouse
-  text("" + player.xPos + "," + player.yPos, player.xPos, player.yPos); //Coordinates at the player.Tried
+  text("" + player.xPos + "," + player.yPos, player.xPos + 10, player.yPos + 15); //Coordinates at the player.Tried
   timer++;
   //for (int i = 0; i < bulletsInStage.size(); i++) {
   //  Bullet bullet = bulletsInStage.get(i);
