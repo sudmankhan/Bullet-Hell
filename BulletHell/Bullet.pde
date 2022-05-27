@@ -1,7 +1,7 @@
 int countdown;
 
 public class Bullet {
-  int xpos, ypos;
+  float xpos, ypos;
   float bulletXSpeed, bulletYSpeed;
 
   public Bullet(int x, int y) {
