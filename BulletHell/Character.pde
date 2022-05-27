@@ -13,7 +13,7 @@ public class Character {
   }
   
   void takeDamage() {
-    if(
+    //if(
     health--;
   }
   
