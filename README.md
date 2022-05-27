@@ -24,3 +24,6 @@ Sudman - Players can now shoot while mouse is held down. Implemented a delay bef
 
 5/25/22
 Andrew - Fixed the methods for shooting towards the mouse position. Tried to create an enemy that would shoot bullets. The enemy will now shoot bursts of bullets periodically but these bullets are shot directly down and are very easy to dodge. Will add different attack patterns later. Must also implement way for the player to take damage and the enemy to take damage. Also need to differentiate player bullets and enemy bullets. Will start working on that tomorrow.
+
+5/26/22 - 5/27/22
+Andrew - Finally fixed the controls. They work as expected and are very accurate.
