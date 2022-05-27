@@ -92,6 +92,12 @@ void draw() {
   }
   circle(mouseX, mouseY, 5);
   //text(timer,20,50);
+
+  mainEnemy.display();
+  text(timer,20,50);
+  //text("" + mouseX + "," +mouseY, mouseX, mouseY); //Coordinates at the mouse
+  //text("" + player.xPos + "," + player.yPos, player.xPos + 10, player.yPos + 15); //Coordinates at the player.
+
   timer++;
   //for (int i = 0; i < bulletsInStage.size(); i++) {
   //  Bullet bullet = bulletsInStage.get(i);
@@ -112,7 +118,11 @@ void draw() {
   if (keysPressed[3]) {
     player.moveRight();
   }
+
   //enemyBulletsInStage.add(new Bullet(mainEnemy.xPos + 15, mainEnemy.yPos + 30, player.xPos, player.yPos)); //Enemy is a square so it bases it off the top left corner.
+
+  //straightBulletsEnemy.add(new Bullet(mainEnemy.xPos + 15, mainEnemy.yPos + 30, player.xPos, player.yPos)); //Enemy is a square so it bases it off the top left corner.
+
   if (mouseHeld) {
     if (bulletsInStage.size() == 0) {
       bulletsInStage.add(new Bullet(player.xPos, player.yPos, mouseX, mouseY));
@@ -139,6 +149,7 @@ void draw() {
   }
   text(bulletsInStage.size(), 20, 20);
 
+
   //for (int j = 0; j < enemyBulletsInStage.size(); j++) {
   //  Bullet bullet = enemyBulletsInStage.get(j);
   //  if (timer % 10 != 0) {
@@ -150,4 +161,17 @@ void draw() {
   //  }
   //  //enemiesInStage.get(0).display();
   //}
+
+//  for (int j = 0; j < straightBulletsEnemy.size(); j++) {
+//    Bullet bullet = straightBulletsEnemy.get(j);
+//    if (timer % 10 != 0) {
+//      bullet.shootDown();
+//      timer++;
+//    }
+//    if (bullet.ypos <= 10 || bullet.ypos >= height-10 || bullet.xpos <= 20 || bullet.xpos >= width - 20) {
+//      straightBulletsEnemy.remove(j);
+//    }
+//  //enemiesInStage.get(0).display();
+//}
+
 }

@@ -1,7 +1,7 @@
 //int countdown;
 public class Bullet {
   int countdown;
-  int xpos, ypos;
+  float xpos, ypos;
   float bulletXSpeed, bulletYSpeed;
 
   public Bullet(int x, int y) {
@@ -16,24 +16,31 @@ public class Bullet {
     xpos = x;
     ypos = y;
     float angle = PI / 2; //In the event that some weird glitch happens, let's hope that the bullets will at least shoot up.
+    float angle2 = angle;
     if (targetX - xpos != 0) {
-      angle = atan(Math.abs((targetY - ypos))/Math.abs((targetX - xpos)));
-      if ((targetY - ypos > 0) && (targetX - xpos < 0)) {
-        angle = PI - angle;
-      }
-      if ((targetY - ypos < 0) && (targetX - xpos < 0)) {
-        angle = PI + angle;
-      }
-      if ((targetY - ypos < 0) && (targetX - xpos > 0)) {
-          angle = atan((targetY-ypos)/(targetX - xpos));
+      angle = atan(Math.abs((targetY - ypos))/Math.abs((targetX - xpos))); //finds a first quadrant angle.
+      System.out.println("Angle:" + (angle * 180 / PI));
+      if ((targetY < ypos) && (targetX < xpos)) { //if shooting top left...?
+        angle2 = PI - angle;
+        System.out.println("Angle2:" + (angle2 * 180 / PI));
+      } else if ((targetY > ypos) && (targetX - xpos < 0)) {
+        angle2 = PI + angle; 
+        System.out.println("Angle2:" + (angle2 * 180 / PI));
+      } else if ((targetY > ypos) && (targetX > xpos)) { //if shooting bottom right, 
+        angle2 = 2 * PI - angle;
+        System.out.println("Angle2:" + (angle2 * 180 / PI));
+      } else {
+        angle2 = angle;
       }
     }
-    bulletXSpeed = 5 * cos(angle);
-    bulletYSpeed = 5 * sin(angle);
+    bulletXSpeed = 5 * cos(angle2);
+    bulletYSpeed = -5 * sin(angle2);
+    System.out.println("bulletYSpeed: " + bulletYSpeed);
+    System.out.println("bulletXSpeed: " + bulletXSpeed);
     countdown = 0;
   }
- 
-  
+
+
   void display() {
     fill(245, 215, 66);
     circle(xpos, ypos, 10);
@@ -47,8 +54,8 @@ public class Bullet {
   }
 
   void shoot() {
-    xpos += bulletXSpeed;
-    ypos += bulletYSpeed;
+    xpos += bulletXSpeed; //go right by xspeed
+    ypos += bulletYSpeed; //go down by yspeed
     display();
   }
 
@@ -59,4 +66,5 @@ public class Bullet {
       display();
     }
   }
+  
 }
