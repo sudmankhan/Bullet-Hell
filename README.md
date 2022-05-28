@@ -27,3 +27,7 @@ Andrew - Fixed the methods for shooting towards the mouse position. Tried to cre
 
 5/26/22 - 5/27/22
 Andrew - Finally fixed the controls. They work as expected and are very accurate.
+Sudman - Working on HP System, but realize that countdown for the bullets was broken because of a bug and am now working to fix said bug. 
+
+5/28/22
+Sudman - Fixed the delay for bullets. Changed it so that it takes in a varable, shootingSpeed, so essentially we can change very easily how fast the player can shoot. Next, gave the shoot method to enemies, so now they target the player and shoot at them. Changed graphics: Player bullets are now blue and enemy bullets are now red. Added a slight glow to each. Finally, when space bar is held, the player moves slower making it easier to dodge enemy shots as the normal movement speed was too fast to dodge.
