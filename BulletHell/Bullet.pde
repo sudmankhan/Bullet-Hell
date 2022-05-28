@@ -3,6 +3,7 @@ public class Bullet {
   int countdown;
   float xpos, ypos;
   float bulletXSpeed, bulletYSpeed;
+  color clr;
 
   public Bullet(int x, int y) {
     xpos = x;
@@ -12,7 +13,7 @@ public class Bullet {
     countdown = 0;
   }
 
-  public Bullet(int x, int y, int targetX, int targetY) {
+  public Bullet(int x, int y, int targetX, int targetY, color colr) {
     xpos = x;
     ypos = y;
     float angle = PI / 2; //In the event that some weird glitch happens, let's hope that the bullets will at least shoot up.
@@ -38,12 +39,19 @@ public class Bullet {
     System.out.println("bulletYSpeed: " + bulletYSpeed);
     System.out.println("bulletXSpeed: " + bulletXSpeed);
     countdown = 0;
+    clr = colr;
   }
 
 
   void display() {
-    fill(245, 215, 66);
+    //stroke(1);
+    fill(clr);
     circle(xpos, ypos, 10);
+    noStroke();
+    fill(red(clr), green(clr), blue(clr),15);
+    circle(xpos, ypos, 50);
+    fill(red(clr), green(clr), blue(clr),30);
+    circle(xpos, ypos, 25);
   }
 
   void shootUp() {
