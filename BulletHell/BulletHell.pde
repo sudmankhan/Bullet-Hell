@@ -7,16 +7,20 @@ Enemy mainEnemy;
 boolean[] keysPressed;
 boolean mouseHeld;
 int timer;
+color playerC;
+color enemyC;
 
 void setup() {
   size(1200, 800);
   background(255);
-  keysPressed = new boolean[4]; 
-  player = new Player(600, 600);
+  keysPressed = new boolean[5]; 
+  player = new Player(600, 600,3);
   mainEnemy = new Enemy(600, 50);
   //enemiesInStage.add(new Enemy(600,200));
   bulletsInStage = new ArrayList<Bullet>();
   enemyBulletsInStage = new ArrayList<Bullet>();
+  playerC = color(0, 162, 255);
+  enemyC = color(255, 0, 0);
 }
 
 void mousePressed() {
@@ -40,6 +44,9 @@ void keyPressed() {
   if (key == 'd') {
     keysPressed[3] = true;
   }
+  if (key == ' ') {
+    keysPressed[4] = true;
+  }
 }
 
 
@@ -55,6 +62,9 @@ void keyReleased() {
   }
   if (key == 'd') {
     keysPressed[3] = false;
+  }
+  if (key == ' ') {
+    keysPressed[4] = false;
   }
 }
 
@@ -93,12 +103,11 @@ void draw() {
   circle(mouseX, mouseY, 5);
   //text(timer,20,50);
 
-  mainEnemy.display();
-  text(timer,20,50);
+  //text(timer,20,60);
   //text("" + mouseX + "," +mouseY, mouseX, mouseY); //Coordinates at the mouse
   //text("" + player.xPos + "," + player.yPos, player.xPos + 10, player.yPos + 15); //Coordinates at the player.
 
-  timer++;
+  //timer++;
   //for (int i = 0; i < bulletsInStage.size(); i++) {
   //  Bullet bullet = bulletsInStage.get(i);
   //  bullet.shootUp();
@@ -119,59 +128,35 @@ void draw() {
     player.moveRight();
   }
 
-  //enemyBulletsInStage.add(new Bullet(mainEnemy.xPos + 15, mainEnemy.yPos + 30, player.xPos, player.yPos)); //Enemy is a square so it bases it off the top left corner.
-
-  //straightBulletsEnemy.add(new Bullet(mainEnemy.xPos + 15, mainEnemy.yPos + 30, player.xPos, player.yPos)); //Enemy is a square so it bases it off the top left corner.
-
-  if (mouseHeld) {
-    if (bulletsInStage.size() == 0) { //no bullets in stage
-      bulletsInStage.add(new Bullet(player.xPos, player.yPos, mouseX, mouseY)); //add a bullet.
-    } else if (bulletsInStage.size() > 0) { //if there are bullets
-      Bullet prev = bulletsInStage.get(bulletsInStage.size()-1); //previous bullet is the last bullet shot.
-      if (prev.countdown == 0) { //if the countdown is 0, add bullet.
-        bulletsInStage.add(new Bullet(player.xPos, player.yPos, mouseX, mouseY));
-        prev.countdown += 3;
-      } else {
-        prev.countdown--;
-      }
-      text(prev.countdown,20,40);
-    }
-  }
+  player.slowMode = keysPressed[4];
 
 
 
-  for (int i = 0; i < bulletsInStage.size(); i++) {
-    Bullet bullet = bulletsInStage.get(i);
-    bullet.shoot();
-    if (bullet.ypos <= 10 || bullet.ypos >= height-10 || bullet.xpos <= 20 || bullet.xpos >= width - 20) {
-      bulletsInStage.remove(i);
-    }
-  }
-  text(bulletsInStage.size(), 20, 20);
-
-
-  //for (int j = 0; j < enemyBulletsInStage.size(); j++) {
-  //  Bullet bullet = enemyBulletsInStage.get(j);
-  //  if (timer % 10 != 0) {
-  //    bullet.shoot();
-  //    timer++;
+  //if (mouseHeld) {
+  //  if (bulletsInStage.size() == 0) { //no bullets in stage
+  //    bulletsInStage.add(new Bullet(player.xPos, player.yPos, mouseX, mouseY, playerC)); //add a bullet.
+  //  } else if (bulletsInStage.size() > 0) { //if there are bullets
+  //    if (bulletsInStage.get(bulletsInStage.size()-1).countdown == 0) { //if the countdown is 0, add bullet.
+  //      bulletsInStage.add(new Bullet(player.xPos, player.yPos, mouseX, mouseY, playerC));
+  //      bulletsInStage.get(bulletsInStage.size()-1).countdown += 2;
+  //    } else {
+  //      bulletsInStage.get(bulletsInStage.size()-1).countdown--;
+  //    }
   //  }
-  //  if (bullet.ypos <= 10 || bullet.ypos >= height-10 || bullet.xpos <= 20 || bullet.xpos >= width - 20) {
-  //    enemyBulletsInStage.remove(j);
-  //  }
-  //  //enemiesInStage.get(0).display();
   //}
 
-//  for (int j = 0; j < straightBulletsEnemy.size(); j++) {
-//    Bullet bullet = straightBulletsEnemy.get(j);
-//    if (timer % 10 != 0) {
-//      bullet.shootDown();
-//      timer++;
-//    }
-//    if (bullet.ypos <= 10 || bullet.ypos >= height-10 || bullet.xpos <= 20 || bullet.xpos >= width - 20) {
-//      straightBulletsEnemy.remove(j);
-//    }
-//  //enemiesInStage.get(0).display();
-//}
 
+
+  //for (int i = 0; i < bulletsInStage.size(); i++) {
+  //  Bullet bullet = bulletsInStage.get(i);
+  //  bullet.shoot();
+  //  if (bullet.ypos <= 0 || bullet.ypos >= height || bullet.xpos <= 0 || bullet.xpos >= width) {
+  //    bulletsInStage.remove(i);
+  //  }
+  //}
+  fill(255);
+  text(bulletsInStage.size(), 20, 20);
+  text(mainEnemy.enemyBullet.size(),20,40);
+  player.shoot();
+  mainEnemy.shoot(player);
 }
