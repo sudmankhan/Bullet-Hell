@@ -108,11 +108,19 @@ void draw() {
   text("Stage " + stageNumber, 20, 40);
   textSize(12);
   player.display();
+  if (player.health > 0) {
   text("Player HP: " + player.health, 20, 780);
+  }
+  if (player.health <= 0) {
+  text("You died!", 20, 780); 
+  }
   for (int i = 0; i < enemiesInStage.size(); i++) {
     if (!enemiesInStage.get(i).isDead()) {  
       enemiesInStage.get(i).display();
       text("HP: " + enemiesInStage.get(i).health, enemiesInStage.get(i).xPos, enemiesInStage.get(i).yPos); //Text.
+      if (enemiesInStage.get(i).health <= 0) { //Putting this here because of a weird glitch with isDead.
+         enemiesInStage.remove(i);
+      }
     }
   }
   circle(mouseX, mouseY, 5);
@@ -145,6 +153,9 @@ void draw() {
       Bullet temp = bulletsInStage.get(j);
       if (Math.abs(enemycenterX - temp.xpos) <= 15 && Math.abs(enemycenterY - temp.ypos) <= 15) {
         enemiesInStage.get(i).takeDamage();
+        if (enemiesInStage.get(i).isDead()) { //testing isDead
+          enemiesInStage.remove(i);
+        }
         bulletsInStage.remove(temp);
       }
     }
