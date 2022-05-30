@@ -13,8 +13,12 @@ public class Character {
   }
   
   void takeDamage() {
-    //if(
-    health--;
+    if (health > 0) {
+      health--;
+    }
+    else if (health == 0) {
+      dead = true;
+    }
   }
   
 }

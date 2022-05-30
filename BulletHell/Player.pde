@@ -1,5 +1,4 @@
 public class Player extends Character {
-  int health;
   int shootingSpeed; 
   int movementMode;
   boolean slowMode;
@@ -7,6 +6,7 @@ public class Player extends Character {
   public Player(int x, int y,int shootSpeed) {
     super(x, y);
     shootingSpeed = shootSpeed;
+    health = 10;
   }
 
   void setup() {

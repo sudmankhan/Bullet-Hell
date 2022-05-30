@@ -14,13 +14,14 @@ void setup() {
   size(1200, 800);
   background(255);
   keysPressed = new boolean[5]; 
-  player = new Player(600, 600,3);
+  player = new Player(600, 600, 3);
   mainEnemy = new Enemy(600, 50);
-  //enemiesInStage.add(new Enemy(600,200));
+  enemiesInStage = new ArrayList<Enemy>();
   bulletsInStage = new ArrayList<Bullet>();
   enemyBulletsInStage = new ArrayList<Bullet>();
   playerC = color(0, 162, 255);
   enemyC = color(255, 0, 0);
+  setupStage(1);
 }
 
 void mousePressed() {
@@ -29,6 +30,22 @@ void mousePressed() {
 
 void mouseReleased() {
   mouseHeld = false;
+}
+
+void setupStage(int num) {
+  switch(num) {
+  case 1:
+    enemiesInStage.add(new Enemy(200, 100));
+    enemiesInStage.add(new Enemy(400, 100));
+    enemiesInStage.add(new Enemy(600, 100));
+    enemiesInStage.add(new Enemy(800, 100));
+    enemiesInStage.add(new Enemy(1000, 100));
+    break;
+  case 2:
+  case 3:
+  case 4:
+  case 5:
+  }
 }
 
 void keyPressed() {
@@ -97,24 +114,13 @@ void keyReleased() {
 void draw() {
   background(0);
   player.display();
-  if (!mainEnemy.isDead()) {  
-    mainEnemy.display();
+  text(player.health, 20, 780);
+  for (int i = 0; i < enemiesInStage.size(); i++) {
+    if (!enemiesInStage.get(i).isDead()) {  
+      enemiesInStage.get(i).display();
+    }
   }
   circle(mouseX, mouseY, 5);
-  //text(timer,20,50);
-
-  //text(timer,20,60);
-  //text("" + mouseX + "," +mouseY, mouseX, mouseY); //Coordinates at the mouse
-  //text("" + player.xPos + "," + player.yPos, player.xPos + 10, player.yPos + 15); //Coordinates at the player.
-
-  //timer++;
-  //for (int i = 0; i < bulletsInStage.size(); i++) {
-  //  Bullet bullet = bulletsInStage.get(i);
-  //  bullet.shootUp();
-  //}
-  //if (keysPressed[0] && keysPressed[1]) {
-  //  player.moveUpLeft();
-  //}
   if (keysPressed[0]) {
     player.moveUp();
   }
@@ -130,33 +136,40 @@ void draw() {
 
   player.slowMode = keysPressed[4];
 
-
-
-  //if (mouseHeld) {
-  //  if (bulletsInStage.size() == 0) { //no bullets in stage
-  //    bulletsInStage.add(new Bullet(player.xPos, player.yPos, mouseX, mouseY, playerC)); //add a bullet.
-  //  } else if (bulletsInStage.size() > 0) { //if there are bullets
-  //    if (bulletsInStage.get(bulletsInStage.size()-1).countdown == 0) { //if the countdown is 0, add bullet.
-  //      bulletsInStage.add(new Bullet(player.xPos, player.yPos, mouseX, mouseY, playerC));
-  //      bulletsInStage.get(bulletsInStage.size()-1).countdown += 2;
-  //    } else {
-  //      bulletsInStage.get(bulletsInStage.size()-1).countdown--;
-  //    }
-  //  }
-  //}
-
-
-
-  //for (int i = 0; i < bulletsInStage.size(); i++) {
-  //  Bullet bullet = bulletsInStage.get(i);
-  //  bullet.shoot();
-  //  if (bullet.ypos <= 0 || bullet.ypos >= height || bullet.xpos <= 0 || bullet.xpos >= width) {
-  //    bulletsInStage.remove(i);
-  //  }
-  //}
   fill(255);
   text(bulletsInStage.size(), 20, 20);
-  text(mainEnemy.enemyBullet.size(),20,40);
+  text(mouseX + " " + mouseY, 20, 100);
+  text(player.xPos + " " + player.yPos, 20, 120);
+
   player.shoot();
-  mainEnemy.shoot(player);
+
+  for (int i = 0; i < enemiesInStage.size(); i++) {
+    int enemycenterX = enemiesInStage.get(i).xPos + 15;
+    int enemycenterY = enemiesInStage.get(i).yPos + 15;
+    for (int j = 0; j < bulletsInStage.size(); j++) {
+      Bullet temp = bulletsInStage.get(j);
+      if (Math.abs(enemycenterX - temp.xpos) <= 15 && Math.abs(enemycenterY - temp.ypos) <= 15) {
+        enemiesInStage.get(i).takeDamage();
+        bulletsInStage.remove(temp);
+      }
+    }
+  }
+
+  for (int i = 0; i < enemiesInStage.size(); i++) {
+    Enemy enemy = enemiesInStage.get(i);
+    enemy.shoot(player);
+
+    for (int j = 0; j < enemy.enemyBullet.size(); j++) {
+      Bullet temp = enemy.enemyBullet.get(j);
+      if (Math.abs(player.xPos - temp.xpos) <= 15 && Math.abs(player.yPos - temp.ypos) <= 15) {
+        player.takeDamage();
+        enemy.enemyBullet.remove(temp);
+        print("hi");
+      }
+    }
+
+    if (enemy.isDead()) {
+      enemiesInStage.remove(i);
+    }
+  }
 }
