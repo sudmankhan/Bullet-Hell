@@ -3,7 +3,7 @@ public class Player extends Character {
   int movementMode;
   boolean slowMode;
 
-  public Player(int x, int y,int shootSpeed) {
+  public Player(int x, int y, int shootSpeed) {
     super(x, y);
     shootingSpeed = shootSpeed;
     health = 10;
@@ -38,11 +38,13 @@ public class Player extends Character {
   //}
 
   void display() {
-    fill(255);
-    circle(xPos, yPos, 30);
-    fill(89, 255, 0);
-    circle(xPos, yPos, 10);
-    fill(255);
+    if (!dead) {
+      fill(255);
+      circle(xPos, yPos, 30);
+      fill(89, 255, 0);
+      circle(xPos, yPos, 10);
+      fill(255);
+    }
     //textSize(20);
     //fill(0,0,0);
     //text("Movement Mode: " + movementMode, 20, 20);
@@ -52,7 +54,7 @@ public class Player extends Character {
   }
 
   void shoot() {
-    if (mouseHeld) {
+    if (mouseHeld && !dead) {
       if (bulletsInStage.size() == 0) { //no bullets in stage
         bulletsInStage.add(new Bullet(player.xPos, player.yPos, mouseX, mouseY, playerC)); //add a bullet.
       } else if (bulletsInStage.size() > 0) { //if there are bullets

@@ -3,7 +3,6 @@ ArrayList<Enemy> enemiesInStage;
 ArrayList<Bullet> bulletsInStage;
 ArrayList<Bullet> enemyBulletsInStage;
 Player player;
-Enemy mainEnemy;
 boolean[] keysPressed;
 boolean mouseHeld;
 int timer;
@@ -15,7 +14,6 @@ void setup() {
   background(255);
   keysPressed = new boolean[5]; 
   player = new Player(600, 600, 3);
-  mainEnemy = new Enemy(600, 50);
   enemiesInStage = new ArrayList<Enemy>();
   bulletsInStage = new ArrayList<Bullet>();
   enemyBulletsInStage = new ArrayList<Bullet>();
@@ -47,14 +45,13 @@ void setupStage(int num) {
     enemiesInStage.add(new Enemy(600, 100));
     enemiesInStage.add(new Enemy(800, 100));
     enemiesInStage.add(new Enemy(1000, 100));
-    
-    enemiesInStage.add(new Enemy(200, 200));
-    enemiesInStage.add(new Enemy(400, 200));
-    enemiesInStage.add(new Enemy(600, 200));
-    enemiesInStage.add(new Enemy(800, 200));
-    enemiesInStage.add(new Enemy(1000, 200));
+
+    enemiesInStage.add(new Enemy(300, 200));
+    enemiesInStage.add(new Enemy(500, 200));
+    enemiesInStage.add(new Enemy(700, 200));
+    enemiesInStage.add(new Enemy(900, 200));
     break;
-  case 3:
+  case 3: //NEED TO ADD MORE STAGES
   case 4:
   case 5:
   }
@@ -97,39 +94,19 @@ void keyReleased() {
   }
 }
 
-//void keyPressed() {
-//  //if (key == BACKSPACE) {
-//  //   if (movementMode == 1) {
-//  //      movementMode = 0; 
-//  //   }
-//  //   else {
-//  //    movementMode = 1; 
-//  //   }
-//  //}
-//  if (key == 'w') { //w
-//    player.moveUp();
-//  }
-//  if (key == 'a') { //a
-//    player.moveLeft();
-//  }
-//  if (key == 's') { //s
-//    player.moveDown();
-//  }
-//  if (key == 'd') { //d
-//    player.moveRight();
-//  }
-//  if (key == 'a' && key == 'w') { //d
-//    player.moveUpLeft();
-//  }
-//}
 
 void draw() {
-  if (enemiesInStage.size() == 0) {
-    //delay(500);
-    stageNumber++;
-    setupStage(stageNumber);
-  }
   background(0);
+  if(stageNumber < 5) {
+    if (enemiesInStage.size() == 0) {
+      stageNumber++;
+      setupStage(stageNumber);
+    }
+  }
+  fill(255);
+  textSize(25);
+  text("Stage " + stageNumber, 20, 40);
+  textSize(12);
   player.display();
   text(player.health, 20, 780);
   for (int i = 0; i < enemiesInStage.size(); i++) {
@@ -154,9 +131,9 @@ void draw() {
   player.slowMode = keysPressed[4];
 
   fill(255);
-  text(bulletsInStage.size(), 20, 20);
-  text(mouseX + " " + mouseY, 20, 100);
-  text(player.xPos + " " + player.yPos, 20, 120);
+  //text(bulletsInStage.size(), 20, 20);
+  //text(mouseX + " " + mouseY, 20, 100);
+  //text(player.xPos + " " + player.yPos, 20, 120);
 
   player.shoot();
 
@@ -171,7 +148,8 @@ void draw() {
       }
     }
   }
-
+  
+  
   for (int i = 0; i < enemiesInStage.size(); i++) {
     Enemy enemy = enemiesInStage.get(i);
     enemy.shoot(player);
@@ -189,6 +167,4 @@ void draw() {
     }
     //enemy.shoot(player);
   }
-  
-  
 }

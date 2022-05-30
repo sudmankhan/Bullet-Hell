@@ -36,7 +36,7 @@ public class Enemy extends Character {
         enemyBullet.remove(i);
       }
     }
-    text(enemyBullet.size(), 20, 40);
+    //text(enemyBullet.size(), 20, 40);
   }
 
   boolean hitTarget(Character x) {
