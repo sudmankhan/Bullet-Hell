@@ -108,10 +108,11 @@ void draw() {
   text("Stage " + stageNumber, 20, 40);
   textSize(12);
   player.display();
-  text(player.health, 20, 780);
+  text("Player HP: " + player.health, 20, 780);
   for (int i = 0; i < enemiesInStage.size(); i++) {
     if (!enemiesInStage.get(i).isDead()) {  
       enemiesInStage.get(i).display();
+      text("HP: " + enemiesInStage.get(i).health, enemiesInStage.get(i).xPos, enemiesInStage.get(i).yPos); //Text.
     }
   }
   circle(mouseX, mouseY, 5);
