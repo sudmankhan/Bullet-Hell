@@ -5,12 +5,12 @@ public class Enemy extends Character {
 
   public Enemy(int x, int y) {
     super(x, y);
-    health = 5;
+    health = 1;
     enemyBullet = new ArrayList<Bullet>();
   } 
 
   void display() {
-    if (health > 0) {
+    if (!dead) {
       rect(xPos, yPos, 30, 30);
     }
   }
@@ -22,7 +22,7 @@ public class Enemy extends Character {
       } else if (enemyBullet.size() > 0) { //if there are bullets
         if (enemyBullet.get(enemyBullet.size()-1).countdown == 0) { //if the countdown is 0, add bullet.
           enemyBullet.add(new Bullet(xPos+15, yPos+15, target.xPos, target.yPos, enemyC));
-          enemyBullet.get(enemyBullet.size()-1).countdown += 10;
+          enemyBullet.get(enemyBullet.size()-1).countdown += 15;
         } else {
           enemyBullet.get(enemyBullet.size()-1).countdown--;
         }
@@ -42,7 +42,7 @@ public class Enemy extends Character {
   boolean hitTarget(Character x) {
     for (int i = 0; i < enemyBullet.size(); i++) {
       Bullet temp = enemyBullet.get(i);
-      if (Math.abs(x.xPos - temp.xpos) >= 10 && Math.abs(x.yPos - temp.ypos) >= 10) {
+      if (Math.abs(x.xPos - temp.xpos) <= 10 && Math.abs(x.yPos - temp.ypos) <= 10) {
         return true;
       }
 

@@ -21,7 +21,7 @@ void setup() {
   enemyBulletsInStage = new ArrayList<Bullet>();
   playerC = color(0, 162, 255);
   enemyC = color(255, 0, 0);
-  setupStage(1);
+  stageNumber = 0;
 }
 
 void mousePressed() {
@@ -42,6 +42,18 @@ void setupStage(int num) {
     enemiesInStage.add(new Enemy(1000, 100));
     break;
   case 2:
+    enemiesInStage.add(new Enemy(200, 100));
+    enemiesInStage.add(new Enemy(400, 100));
+    enemiesInStage.add(new Enemy(600, 100));
+    enemiesInStage.add(new Enemy(800, 100));
+    enemiesInStage.add(new Enemy(1000, 100));
+    
+    enemiesInStage.add(new Enemy(200, 200));
+    enemiesInStage.add(new Enemy(400, 200));
+    enemiesInStage.add(new Enemy(600, 200));
+    enemiesInStage.add(new Enemy(800, 200));
+    enemiesInStage.add(new Enemy(1000, 200));
+    break;
   case 3:
   case 4:
   case 5:
@@ -112,6 +124,11 @@ void keyReleased() {
 //}
 
 void draw() {
+  if (enemiesInStage.size() == 0) {
+    //delay(500);
+    stageNumber++;
+    setupStage(stageNumber);
+  }
   background(0);
   player.display();
   text(player.health, 20, 780);
@@ -164,12 +181,14 @@ void draw() {
       if (Math.abs(player.xPos - temp.xpos) <= 15 && Math.abs(player.yPos - temp.ypos) <= 15) {
         player.takeDamage();
         enemy.enemyBullet.remove(temp);
-        print("hi");
       }
     }
 
     if (enemy.isDead()) {
       enemiesInStage.remove(i);
     }
+    //enemy.shoot(player);
   }
+  
+  
 }
