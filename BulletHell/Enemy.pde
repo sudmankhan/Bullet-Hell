@@ -10,20 +10,22 @@ public class Enemy extends Character {
   } 
 
   void display() {
-    if (health > 0) {
+    if (!dead) {
       rect(xPos, yPos, 30, 30);
     }
   }
 
   void shoot(Character target) {
-    if (enemyBullet.size() == 0) { //no bullets in stage
-      enemyBullet.add(new Bullet(xPos+15, yPos+15, mouseX, mouseY, enemyC)); //add a bullet.
-    } else if (enemyBullet.size() > 0) { //if there are bullets
-      if (enemyBullet.get(enemyBullet.size()-1).countdown == 0) { //if the countdown is 0, add bullet.
-        enemyBullet.add(new Bullet(xPos+15, yPos+15, target.xPos, target.yPos, enemyC));
-        enemyBullet.get(enemyBullet.size()-1).countdown += 3;
-      } else {
-        enemyBullet.get(enemyBullet.size()-1).countdown--;
+    if (!this.isDead()) {
+      if (enemyBullet.size() == 0) { //no bullets in stage
+        enemyBullet.add(new Bullet(xPos+15, yPos+15, mouseX, mouseY, enemyC)); //add a bullet.
+      } else if (enemyBullet.size() > 0) { //if there are bullets
+        if (enemyBullet.get(enemyBullet.size()-1).countdown == 0) { //if the countdown is 0, add bullet.
+          enemyBullet.add(new Bullet(xPos+15, yPos+15, target.xPos, target.yPos, enemyC));
+          enemyBullet.get(enemyBullet.size()-1).countdown += 15;
+        } else {
+          enemyBullet.get(enemyBullet.size()-1).countdown--;
+        }
       }
     }
 
@@ -34,6 +36,17 @@ public class Enemy extends Character {
         enemyBullet.remove(i);
       }
     }
-    text(enemyBullet.size(),20,40);
+    //text(enemyBullet.size(), 20, 40);
+  }
+
+  boolean hitTarget(Character x) {
+    for (int i = 0; i < enemyBullet.size(); i++) {
+      Bullet temp = enemyBullet.get(i);
+      if (Math.abs(x.xPos - temp.xpos) <= 10 && Math.abs(x.yPos - temp.ypos) <= 10) {
+        return true;
+      }
+
+    }
+    return false;
   }
 }
