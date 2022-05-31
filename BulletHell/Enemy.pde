@@ -86,7 +86,7 @@ public class Enemy extends Character {
       } else if (enemyBullet.size() > 0) { //if there are bullets
         if (enemyBullet.get(enemyBullet.size()-1).countdown == 0) { //if the countdown is 0, add bullet.
           enemyBullet.add(new Bullet(xPos+15, yPos+15, target.xPos, target.yPos, enemyC));
-          enemyBullet.get(enemyBullet.size()-1).countdown += 25;
+          enemyBullet.get(enemyBullet.size()-1).countdown += 15;
         } else {
           enemyBullet.get(enemyBullet.size()-1).countdown--;
         }

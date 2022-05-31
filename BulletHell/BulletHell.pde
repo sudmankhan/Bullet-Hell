@@ -25,11 +25,15 @@ void setup() {
 }
 
 void mousePressed() {
-  mouseHeld = true;
+  if (!player.isDead()) {
+    mouseHeld = true;
+  }
 }
 
 void mouseReleased() {
-  mouseHeld = false;
+  if (!player.isDead()) {
+    mouseHeld = false;
+  }
 }
 
 void setupStage(int num) {
@@ -54,23 +58,6 @@ void setupStage(int num) {
     enemiesInStage.add(new Enemy(900, 100));
     break;
   case 3: //NEED TO ADD MORE STAGES
-    enemiesInStage.add(new Enemy(50, 50));
-    enemiesInStage.add(new Enemy(50, 100));
-    enemiesInStage.add(new Enemy(100, 50));
-
-    enemiesInStage.add(new Enemy(50, 750));
-    enemiesInStage.add(new Enemy(50, 700));
-    enemiesInStage.add(new Enemy(100, 750));
-
-    enemiesInStage.add(new Enemy(1150, 50));
-    enemiesInStage.add(new Enemy(1100, 50));
-    enemiesInStage.add(new Enemy(1150, 100));
-
-    enemiesInStage.add(new Enemy(1150, 750));
-    enemiesInStage.add(new Enemy(1100, 750));
-    enemiesInStage.add(new Enemy(1150, 700));
-    break;
-  case 4:
     enemiesInStage.add(new Enemy(100, 100));
     enemiesInStage.add(new Enemy(100, 200));
     enemiesInStage.add(new Enemy(100, 300));
@@ -79,7 +66,7 @@ void setupStage(int num) {
     enemiesInStage.add(new Enemy(100, 600));
     enemiesInStage.add(new Enemy(100, 700));
     break;
-  case 5:
+  case 4:
     enemiesInStage.add(new Enemy(100, 100));
     enemiesInStage.add(new Enemy(100, 200));
     enemiesInStage.add(new Enemy(100, 300));
@@ -94,6 +81,23 @@ void setupStage(int num) {
     enemiesInStage.add(new Enemy(1150, 400));
     enemiesInStage.add(new Enemy(1150, 500));
     enemiesInStage.add(new Enemy(1150, 600));
+    enemiesInStage.add(new Enemy(1150, 700));
+    break;
+  case 5:
+    enemiesInStage.add(new Enemy(50, 50));
+    enemiesInStage.add(new Enemy(50, 100));
+    enemiesInStage.add(new Enemy(100, 50));
+
+    enemiesInStage.add(new Enemy(50, 750));
+    enemiesInStage.add(new Enemy(50, 700));
+    enemiesInStage.add(new Enemy(100, 750));
+
+    enemiesInStage.add(new Enemy(1150, 50));
+    enemiesInStage.add(new Enemy(1100, 50));
+    enemiesInStage.add(new Enemy(1150, 100));
+
+    enemiesInStage.add(new Enemy(1150, 750));
+    enemiesInStage.add(new Enemy(1100, 750));
     enemiesInStage.add(new Enemy(1150, 700));
     break;
   }
@@ -136,22 +140,40 @@ void keyReleased() {
   }
 }
 
+void reset() {
+  player.health = 10;
+  player.dead = false;
+  player.xPos = 600;
+  player.yPos = 600;
+  enemiesInStage.clear();
+  stageNumber = 0;
+}
 
 void draw() {
   background(0);
   if (gameState == 1) {
     fill(255);
     textSize(20);
+    text("arrow keys to move", 20, 700);
+    text("mouse to aim", 20, 740);
+    text("hold spacebar to go slower and dodge better", 20, 780);
     text("welcome to", 525, 315);
     textSize(100);
     text("gaem", 450, 400);
     textSize(20);
     text("click anywhere to begin", 475, 475);
-    if (enemiesInStage.size() == 0) {
-      stageNumber++;
-      setupStage(stageNumber);
+    if (stageNumber < 5) {
+      if (enemiesInStage.size() == 0) {
+        stageNumber++;
+        setupStage(stageNumber);
+      }
     }
-    
+    player.display();
+    for (int i = 0; i < enemiesInStage.size(); i++) {
+      if (!enemiesInStage.get(i).isDead()) {  
+        enemiesInStage.get(i).display();
+      }
+    }
     if (mousePressed) {
       gameState = 2;
     }
@@ -162,12 +184,12 @@ void draw() {
     }
     timer++;
     background(0);
-    //if (stageNumber < 5) {
-    //  if (enemiesInStage.size() == 0) {
-    //    stageNumber++;
-    //    setupStage(stageNumber);
-    //  }
-    //}
+    if (stageNumber < 5) {
+      if (enemiesInStage.size() == 0) {
+        stageNumber++;
+        setupStage(stageNumber);
+      }
+    }
     fill(255);
     textSize(25);
     text("Stage " + stageNumber, 20, 40);
@@ -254,6 +276,13 @@ void draw() {
     background(0);
     fill(255, 0, 0);
     textSize(100);
-    text("you died", 400, 400);
+    text("You Died", 375, 400);
+    textSize(20);
+    text("press r to start over", 500, 500);
+    textSize(12);
+    if (key == 'r') {
+      reset();
+      gameState = 1;
+    }
   }
 }
