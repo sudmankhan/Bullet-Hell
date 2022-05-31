@@ -11,6 +11,7 @@ public class HomingBullet extends Bullet {
     }
     
     void display() {
+    if (bulletLife != 0) {
     //stroke(1);
     bulletLife--;
     fill(clr);
@@ -20,6 +21,7 @@ public class HomingBullet extends Bullet {
     circle(xpos, ypos, 50);
     fill(red(clr), green(clr), blue(clr),30);
     circle(xpos, ypos, 25);
+    }
   }
   
 }
