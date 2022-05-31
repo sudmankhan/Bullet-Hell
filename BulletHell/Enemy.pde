@@ -1,7 +1,9 @@
 public class Enemy extends Character {
   int count;
   int score;
+  int rng = 4; //rng for movement.
   ArrayList<Bullet> enemyBullet;
+  boolean slowMode = false;
 
   public Enemy(int x, int y) {
     super(x, y);
@@ -14,7 +16,71 @@ public class Enemy extends Character {
       rect(xPos, yPos, 30, 30);
     }
   }
+  
+   void moveLeft() {
+    if (xPos > 20) {
+      if (slowMode) {
+        xPos -= 3;
+      } else {
+        xPos -= 15;
+      }
+    }
+  }
 
+  void moveRight() {
+    if (xPos < width - 20) {
+      if (slowMode) {
+        xPos += 3;
+      } else {
+        xPos += 15;
+      }
+    }
+  }
+
+  void moveUp() {
+    if (yPos > 20) {
+      if (slowMode) {
+        yPos -= 3;
+      } else {
+        yPos -= 15;
+      }
+    }
+  }
+
+  void moveDown() { 
+    if (yPos < height-20) { 
+      if (slowMode) {
+        yPos += 3;
+      } else {
+        yPos += 15;
+      }
+    }
+  }
+
+
+  void randomMovement() {
+  int restrictedMove = rng;
+  rng = (int) (Math.random() * 4); //random integer 0, 1, 2, or 3.
+  if (restrictedMove == rng) {
+     rng = 4;
+     return; 
+  }
+  else {
+   if (rng == 0) {
+     moveLeft();
+   }
+   if (rng == 1) {
+     moveRight();
+   }
+   if (rng == 2) {
+     moveUp();
+   }
+   if (rng == 3) {
+     moveDown();
+   }
+  }
+  }
+  
   void shoot(Character target) {
     if (!this.isDead()) {
       if (enemyBullet.size() == 0) { //no bullets in stage

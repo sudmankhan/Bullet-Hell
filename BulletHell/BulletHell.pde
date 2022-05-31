@@ -165,6 +165,7 @@ void draw() {
   for (int i = 0; i < enemiesInStage.size(); i++) {
     Enemy enemy = enemiesInStage.get(i);
     enemy.shoot(player);
+    enemy.randomMovement();
 
     for (int j = 0; j < enemy.enemyBullet.size(); j++) {
       Bullet temp = enemy.enemyBullet.get(j);
