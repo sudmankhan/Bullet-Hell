@@ -9,6 +9,7 @@ static int timer;
 color playerC;
 color enemyC;
 int gameState;
+boolean godMode;
 
 void setup() {
   size(1200, 800);
@@ -22,6 +23,7 @@ void setup() {
   enemyC = color(255, 0, 0);
   stageNumber = 0;
   gameState = 1;
+  godMode = false;
 }
 
 void mousePressed() {
@@ -119,6 +121,9 @@ void keyPressed() {
   if (key == ' ') {
     keysPressed[4] = true;
   }
+  if (key == 'g') {
+    godMode = !godMode;
+  }
 }
 
 
@@ -179,11 +184,16 @@ void draw() {
     }
   }
   if (gameState == 2) {
+
     if (player.isDead()) {
       gameState = 3;
     }
     timer++;
     background(0);
+    if (godMode) {
+      fill(255);
+      text("God Mode", 20, 760);
+    }
     if (stageNumber < 5) {
       if (enemiesInStage.size() == 0) {
         stageNumber++;
@@ -261,7 +271,9 @@ void draw() {
       for (int j = 0; j < enemy.enemyBullet.size(); j++) {
         Bullet temp = enemy.enemyBullet.get(j);
         if (Math.abs(player.xPos - temp.xpos) <= 15 && Math.abs(player.yPos - temp.ypos) <= 15) {
-          player.takeDamage();
+          if (!godMode) {
+            player.takeDamage();
+          }
           enemy.enemyBullet.remove(temp);
         }
       }
