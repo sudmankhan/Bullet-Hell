@@ -8,6 +8,7 @@ boolean mouseHeld;
 static int timer;
 color playerC;
 color enemyC;
+int gameState;
 
 void setup() {
   size(1200, 800);
@@ -20,6 +21,7 @@ void setup() {
   playerC = color(0, 162, 255);
   enemyC = color(255, 0, 0);
   stageNumber = 0;
+  gameState = 1;
 }
 
 void mousePressed() {
@@ -55,15 +57,15 @@ void setupStage(int num) {
     enemiesInStage.add(new Enemy(50, 50));
     enemiesInStage.add(new Enemy(50, 100));
     enemiesInStage.add(new Enemy(100, 50));
-    
+
     enemiesInStage.add(new Enemy(50, 750));
     enemiesInStage.add(new Enemy(50, 700));
     enemiesInStage.add(new Enemy(100, 750));
-    
+
     enemiesInStage.add(new Enemy(1150, 50));
     enemiesInStage.add(new Enemy(1100, 50));
     enemiesInStage.add(new Enemy(1150, 100));
-    
+
     enemiesInStage.add(new Enemy(1150, 750));
     enemiesInStage.add(new Enemy(1100, 750));
     enemiesInStage.add(new Enemy(1150, 700));
@@ -85,7 +87,7 @@ void setupStage(int num) {
     enemiesInStage.add(new Enemy(100, 500));
     enemiesInStage.add(new Enemy(100, 600));
     enemiesInStage.add(new Enemy(100, 700));
-    
+
     enemiesInStage.add(new Enemy(1150, 100));
     enemiesInStage.add(new Enemy(1150, 200));
     enemiesInStage.add(new Enemy(1150, 300));
@@ -136,93 +138,122 @@ void keyReleased() {
 
 
 void draw() {
-  timer++;
   background(0);
-  if (stageNumber < 5) {
+  if (gameState == 1) {
+    fill(255);
+    textSize(20);
+    text("welcome to", 525, 315);
+    textSize(100);
+    text("gaem", 450, 400);
+    textSize(20);
+    text("click anywhere to begin", 475, 475);
     if (enemiesInStage.size() == 0) {
       stageNumber++;
       setupStage(stageNumber);
     }
-  }
-  fill(255);
-  textSize(25);
-  text("Stage " + stageNumber, 20, 40);
-  textSize(12);
-  player.display();
-  if (player.health > 0) {
-    text("Player HP: " + player.health, 20, 780);
-  }
-  text("In-game Timer: " + timer, 20, 760);
-  if (player.health <= 0) {
-    text("You died!", 20, 780);
-  }
-  for (int i = 0; i < enemiesInStage.size(); i++) {
-    if (!enemiesInStage.get(i).isDead()) {  
-      enemiesInStage.get(i).display();
-      text("HP: " + enemiesInStage.get(i).health, enemiesInStage.get(i).xPos, enemiesInStage.get(i).yPos); //Text.
-      if (enemiesInStage.get(i).health <= 0) { //Putting this here because of a weird glitch with isDead.
-        enemiesInStage.remove(i);
-      }
+    
+    if (mousePressed) {
+      gameState = 2;
     }
   }
-  circle(mouseX, mouseY, 5);
-  if (keysPressed[0]) {
-    player.moveUp();
-  }
-  if (keysPressed[1]) {
-    player.moveLeft();
-  }
-  if (keysPressed[2]) {
-    player.moveDown();
-  }
-  if (keysPressed[3]) {
-    player.moveRight();
-  }
-
-  player.slowMode = keysPressed[4];
-
-  fill(255);
-  //text(bulletsInStage.size(), 20, 20);
-  //text(mouseX + " " + mouseY, 20, 100);
-  //text(player.xPos + " " + player.yPos, 20, 120);
-
-  player.shoot();
-
-  for (int i = 0; i < enemiesInStage.size(); i++) {
-    int enemycenterX = enemiesInStage.get(i).xPos + 15;
-    int enemycenterY = enemiesInStage.get(i).yPos + 15;
-    for (int j = 0; j < bulletsInStage.size(); j++) {
-      Bullet temp = bulletsInStage.get(j);
-      if (Math.abs(enemycenterX - temp.xpos) <= 15 && Math.abs(enemycenterY - temp.ypos) <= 15) {
-        enemiesInStage.get(i).takeDamage();
-        if (enemiesInStage.get(i).isDead()) { //testing isDead
+  if (gameState == 2) {
+    if (player.isDead()) {
+      gameState = 3;
+    }
+    timer++;
+    background(0);
+    //if (stageNumber < 5) {
+    //  if (enemiesInStage.size() == 0) {
+    //    stageNumber++;
+    //    setupStage(stageNumber);
+    //  }
+    //}
+    fill(255);
+    textSize(25);
+    text("Stage " + stageNumber, 20, 40);
+    textSize(12);
+    player.display();
+    if (player.health > 0) {
+      text("Player HP: " + player.health, 20, 780);
+    }
+    //text("In-game Timer: " + timer, 20, 760);
+    if (player.health <= 0) {
+      text("You died!", 20, 780);
+    }
+    for (int i = 0; i < enemiesInStage.size(); i++) {
+      if (!enemiesInStage.get(i).isDead()) {  
+        enemiesInStage.get(i).display();
+        text("HP: " + enemiesInStage.get(i).health, enemiesInStage.get(i).xPos, enemiesInStage.get(i).yPos); //Text.
+        if (enemiesInStage.get(i).health <= 0) { //Putting this here because of a weird glitch with isDead.
           enemiesInStage.remove(i);
         }
-        bulletsInStage.remove(temp);
       }
+    }
+    circle(mouseX, mouseY, 5);
+    if (keysPressed[0]) {
+      player.moveUp();
+    }
+    if (keysPressed[1]) {
+      player.moveLeft();
+    }
+    if (keysPressed[2]) {
+      player.moveDown();
+    }
+    if (keysPressed[3]) {
+      player.moveRight();
+    }
+
+    player.slowMode = keysPressed[4];
+
+    fill(255);
+    //text(bulletsInStage.size(), 20, 20);
+    //text(mouseX + " " + mouseY, 20, 100);
+    //text(player.xPos + " " + player.yPos, 20, 120);
+
+    player.shoot();
+
+    for (int i = 0; i < enemiesInStage.size(); i++) {
+      int enemycenterX = enemiesInStage.get(i).xPos + 15;
+      int enemycenterY = enemiesInStage.get(i).yPos + 15;
+      for (int j = 0; j < bulletsInStage.size(); j++) {
+        Bullet temp = bulletsInStage.get(j);
+        if (Math.abs(enemycenterX - temp.xpos) <= 15 && Math.abs(enemycenterY - temp.ypos) <= 15) {
+          enemiesInStage.get(i).takeDamage();
+          if (enemiesInStage.get(i).isDead()) { //testing isDead
+            enemiesInStage.remove(i);
+          }
+          bulletsInStage.remove(temp);
+        }
+      }
+    }
+
+
+    for (int i = 0; i < enemiesInStage.size(); i++) {
+      Enemy enemy = enemiesInStage.get(i);
+      if (!player.isDead()) {
+        enemy.shoot(player);
+      }
+      //text("Enemy Timer: " + enemy.countdown, 20, 760);
+      enemy.randomMovement(); //random Movement...?
+
+      for (int j = 0; j < enemy.enemyBullet.size(); j++) {
+        Bullet temp = enemy.enemyBullet.get(j);
+        if (Math.abs(player.xPos - temp.xpos) <= 15 && Math.abs(player.yPos - temp.ypos) <= 15) {
+          player.takeDamage();
+          enemy.enemyBullet.remove(temp);
+        }
+      }
+
+      //if (enemy.isDead()) {
+      //  enemiesInStage.remove(i);
+      //}
+      //enemy.shoot(player);
     }
   }
-
-
-  for (int i = 0; i < enemiesInStage.size(); i++) {
-    Enemy enemy = enemiesInStage.get(i);
-    if (!player.isDead()) {
-      enemy.shoot(player);
-    }
-    //text("Enemy Timer: " + enemy.countdown, 20, 760);
-    enemy.randomMovement(); //random Movement...?
-
-    for (int j = 0; j < enemy.enemyBullet.size(); j++) {
-      Bullet temp = enemy.enemyBullet.get(j);
-      if (Math.abs(player.xPos - temp.xpos) <= 15 && Math.abs(player.yPos - temp.ypos) <= 15) {
-        //player.takeDamage();
-        enemy.enemyBullet.remove(temp);
-      }
-    }
-
-    //if (enemy.isDead()) {
-    //  enemiesInStage.remove(i);
-    //}
-    //enemy.shoot(player);
+  if (gameState == 3) {
+    background(0);
+    fill(255, 0, 0);
+    textSize(100);
+    text("you died", 400, 400);
   }
 }
