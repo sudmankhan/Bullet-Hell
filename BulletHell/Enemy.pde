@@ -92,6 +92,7 @@ public class Enemy extends Character {
         }
       }
     }
+     
 
     for (int i = 0; i < enemyBullet.size(); i++) {
       Bullet bullet = enemyBullet.get(i);
