@@ -5,7 +5,7 @@ ArrayList<Bullet> enemyBulletsInStage;
 Player player;
 boolean[] keysPressed;
 boolean mouseHeld;
-int timer;
+static int timer;
 color playerC;
 color enemyC;
 
@@ -96,6 +96,7 @@ void keyReleased() {
 
 
 void draw() {
+  timer++;
   background(0);
   if(stageNumber < 5) {
     if (enemiesInStage.size() == 0) {
@@ -111,6 +112,7 @@ void draw() {
   if (player.health > 0) {
   text("Player HP: " + player.health, 20, 780);
   }
+  text("In-game Timer: " + timer, 20, 760);
   if (player.health <= 0) {
   text("You died!", 20, 780); 
   }
@@ -165,7 +167,8 @@ void draw() {
   for (int i = 0; i < enemiesInStage.size(); i++) {
     Enemy enemy = enemiesInStage.get(i);
     enemy.shoot(player);
-    enemy.randomMovement();
+    //text("Enemy Timer: " + enemy.countdown, 20, 760);
+    enemy.randomMovement(); //random Movement...?
 
     for (int j = 0; j < enemy.enemyBullet.size(); j++) {
       Bullet temp = enemy.enemyBullet.get(j);
