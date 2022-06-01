@@ -13,7 +13,7 @@ boolean godMode;
 
 void setup() {
   size(1200, 800);
-  background(255);
+  background(0);
   keysPressed = new boolean[5]; 
   player = new Player(600, 600, 5);
   enemiesInStage = new ArrayList<Enemy>();
@@ -155,7 +155,6 @@ void reset() {
 }
 
 void draw() {
-  background(0);
   if (gameState == 1) {
     fill(255);
     textSize(20);
@@ -183,12 +182,14 @@ void draw() {
       gameState = 2;
     }
   }
+  
+  
   if (gameState == 2) {
 
     if (player.isDead()) {
       gameState = 3;
     }
-    timer++;
+    //timer++;
     background(0);
     if (godMode) {
       fill(255);
@@ -196,8 +197,9 @@ void draw() {
     }
     if (stageNumber < 5) {
       if (enemiesInStage.size() == 0) {
-        stageNumber++;
-        setupStage(stageNumber);
+        //stageNumber++;
+        //setupStage(stageNumber);
+        text("NO", 500,500);
       }
     }
     fill(255);
