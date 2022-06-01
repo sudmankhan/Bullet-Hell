@@ -259,10 +259,18 @@ void draw() {
       enemy.randomMovement(); //random Movement...?
 
       for (int j = 0; j < enemy.enemyBullet.size(); j++) {
-        Bullet temp = enemy.enemyBullet.get(j);
+        if (enemy.enemyBullet.get(j).type == 0) {
+          Bullet temp = enemy.enemyBullet.get(j);
         if (Math.abs(player.xPos - temp.xpos) <= 15 && Math.abs(player.yPos - temp.ypos) <= 15) {
           player.takeDamage();
-          enemy.enemyBullet.remove(temp);
+          if (temp.type != 1) {
+            enemy.enemyBullet.remove(temp);
+          }
+        }
+        if (enemy.enemyBullet.get(j).type == 1) {
+          Bullet temp2 = enemy.enemyBullet.get(j);
+          temp2.bulletLife--; //need to fix this.
+        }
         }
       }
 

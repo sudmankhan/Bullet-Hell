@@ -4,16 +4,18 @@ public class HomingBullet extends Bullet {
   
   public HomingBullet(int x, int y) {
     super(x, y);
+    type = 1;
   }
   
     public HomingBullet(int x, int y, int targetX, int targetY, color colr) {
      super(x, y, targetX, targetY, colr); 
+     type = 1;
     }
     
     void display() {
     if (bulletLife != 0) {
     //stroke(1);
-    bulletLife--;
+    //bulletLife--;
     fill(clr);
     circle(xpos, ypos, 10);
     noStroke();

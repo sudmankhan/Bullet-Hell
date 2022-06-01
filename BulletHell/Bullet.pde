@@ -4,7 +4,8 @@ public class Bullet {
   float xpos, ypos;
   float bulletXSpeed, bulletYSpeed;
   color clr;
-
+  int type = 0;
+  
   public Bullet(int x, int y) {
     xpos = x;
     ypos = y;
