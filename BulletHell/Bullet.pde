@@ -1,9 +1,9 @@
-//int countdown;
 public class Bullet {
   int countdown;
   float xpos, ypos;
   float bulletXSpeed, bulletYSpeed;
   color clr;
+  int damage;
 
   public Bullet(int x, int y) {
     xpos = x;
@@ -11,6 +11,7 @@ public class Bullet {
     bulletXSpeed = 10;
     bulletYSpeed = 1;
     countdown = 0;
+    damage = 1;
   }
 
   public Bullet(int x, int y, int targetX, int targetY, color colr) {
@@ -40,6 +41,7 @@ public class Bullet {
     //System.out.println("bulletXSpeed: " + bulletXSpeed);
     countdown = 0;
     clr = colr;
+    damage = 1;
   }
 
 
