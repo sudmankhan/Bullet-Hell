@@ -20,7 +20,7 @@ public class StrongEnemy extends Enemy {
       } else if (enemyBullet.size() > 0) { //if there are bullets
         if (enemyBullet.get(enemyBullet.size()-1).countdown == 0) { //if the countdown is 0, add bullet.
           enemyBullet.add(new StrongBullet(xPos+15, yPos+15, target.xPos, target.yPos, color(153, 0, 191)));
-          enemyBullet.get(enemyBullet.size()-1).countdown += 20;
+          enemyBullet.get(enemyBullet.size()-1).countdown += 25;
         } else {
           enemyBullet.get(enemyBullet.size()-1).countdown--;
         }

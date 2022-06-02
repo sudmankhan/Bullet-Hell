@@ -43,16 +43,16 @@ void mouseReleased() {
 void setupStage(int num) {
   switch(num) {
   case 1:
-    //enemiesInStage.add(new Enemy(200, 50));
-    //enemiesInStage.add(new Enemy(400, 50));
+    enemiesInStage.add(new Enemy(200, 50));
+    enemiesInStage.add(new Enemy(400, 50));
     enemiesInStage.add(new StrongEnemy(600, 50));
-    //enemiesInStage.add(new Enemy(800, 50));
-    //enemiesInStage.add(new Enemy(1000, 50));
+    enemiesInStage.add(new Enemy(800, 50));
+    enemiesInStage.add(new Enemy(1000, 50));
     break;
   case 2:
     enemiesInStage.add(new Enemy(200, 50));
     enemiesInStage.add(new Enemy(400, 50));
-    enemiesInStage.add(new Enemy(600, 50));
+    enemiesInStage.add(new StrongEnemy(600, 50));
     enemiesInStage.add(new Enemy(800, 50));
     enemiesInStage.add(new Enemy(1000, 50));
 
@@ -65,7 +65,7 @@ void setupStage(int num) {
     enemiesInStage.add(new Enemy(100, 100));
     enemiesInStage.add(new Enemy(100, 200));
     enemiesInStage.add(new Enemy(100, 300));
-    enemiesInStage.add(new Enemy(100, 400));
+    enemiesInStage.add(new StrongEnemy(100, 400));
     enemiesInStage.add(new Enemy(100, 500));
     enemiesInStage.add(new Enemy(100, 600));
     enemiesInStage.add(new Enemy(100, 700));
@@ -74,7 +74,7 @@ void setupStage(int num) {
     enemiesInStage.add(new Enemy(100, 100));
     enemiesInStage.add(new Enemy(100, 200));
     enemiesInStage.add(new Enemy(100, 300));
-    enemiesInStage.add(new Enemy(100, 400));
+    enemiesInStage.add(new StrongEnemy(100, 400));
     enemiesInStage.add(new Enemy(100, 500));
     enemiesInStage.add(new Enemy(100, 600));
     enemiesInStage.add(new Enemy(100, 700));
@@ -82,26 +82,26 @@ void setupStage(int num) {
     enemiesInStage.add(new Enemy(1150, 100));
     enemiesInStage.add(new Enemy(1150, 200));
     enemiesInStage.add(new Enemy(1150, 300));
-    enemiesInStage.add(new Enemy(1150, 400));
+    enemiesInStage.add(new StrongEnemy(1150, 400));
     enemiesInStage.add(new Enemy(1150, 500));
     enemiesInStage.add(new Enemy(1150, 600));
     enemiesInStage.add(new Enemy(1150, 700));
     break;
   case 5:
     enemiesInStage.add(new Enemy(50, 50));
-    enemiesInStage.add(new Enemy(50, 100));
+    enemiesInStage.add(new StrongEnemy(50, 100));
     enemiesInStage.add(new Enemy(100, 50));
 
     enemiesInStage.add(new Enemy(50, 750));
-    enemiesInStage.add(new Enemy(50, 700));
+    enemiesInStage.add(new StrongEnemy(50, 700));
     enemiesInStage.add(new Enemy(100, 750));
 
     enemiesInStage.add(new Enemy(1150, 50));
-    enemiesInStage.add(new Enemy(1100, 50));
+    enemiesInStage.add(new StrongEnemy(1100, 50));
     enemiesInStage.add(new Enemy(1150, 100));
 
     enemiesInStage.add(new Enemy(1150, 750));
-    enemiesInStage.add(new Enemy(1100, 750));
+    enemiesInStage.add(new StrongEnemy(1100, 750));
     enemiesInStage.add(new Enemy(1150, 700));
     break;
   }
@@ -189,7 +189,7 @@ void draw() {
   
   if (gameState == 2) {
 
-    if (player.health == 0) {
+    if (player.isDead()) {
       gameState = 3;
     }
     //timer++;
@@ -271,7 +271,7 @@ void draw() {
         enemy.shoot(player);
       }
       //text("Enemy Timer: " + enemy.countdown, 20, 760);
-      //enemy.randomMovement(); //random Movement...?
+      enemy.randomMovement(); //random Movement...?
       print(enemy.enemyBullet.size());
       for (int j = 0; j < enemy.enemyBullet.size(); j++) {
         Bullet temp = enemy.enemyBullet.get(j);
