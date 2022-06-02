@@ -272,7 +272,6 @@ void draw() {
       }
       //text("Enemy Timer: " + enemy.countdown, 20, 760);
       enemy.randomMovement(); //random Movement...?
-      print(enemy.enemyBullet.size());
       for (int j = 0; j < enemy.enemyBullet.size(); j++) {
         Bullet temp = enemy.enemyBullet.get(j);
         if (Math.abs(player.xPos - temp.xpos) <= 15 && Math.abs(player.yPos - temp.ypos) <= 15) {
@@ -303,5 +302,5 @@ void draw() {
       gameState = 1;
     }
   }
-
+  
 }
