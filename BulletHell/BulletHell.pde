@@ -7,9 +7,10 @@ boolean[] keysPressed;
 boolean mouseHeld;
 static int timer;
 color playerC;
-color enemyC;
+//color enemyC;
 int gameState;
 boolean godMode;
+Boss boss;
 
 void setup() {
   size(1200, 800);
@@ -20,10 +21,11 @@ void setup() {
   bulletsInStage = new ArrayList<Bullet>();
   enemyBulletsInStage = new ArrayList<Bullet>();
   playerC = color(0, 162, 255);
-  enemyC = color(255, 0, 0);
+  //enemyC = color(255, 0, 0);
   stageNumber = 0;
   gameState = 1;
   godMode = false;
+  boss = new Boss(550,75);
 }
 
 void mousePressed() {
@@ -41,11 +43,11 @@ void mouseReleased() {
 void setupStage(int num) {
   switch(num) {
   case 1:
-    enemiesInStage.add(new Enemy(200, 50));
-    enemiesInStage.add(new Enemy(400, 50));
-    enemiesInStage.add(new Enemy(600, 50));
-    enemiesInStage.add(new Enemy(800, 50));
-    enemiesInStage.add(new Enemy(1000, 50));
+    //enemiesInStage.add(new Enemy(200, 50));
+    //enemiesInStage.add(new Enemy(400, 50));
+    enemiesInStage.add(new StrongEnemy(600, 50));
+    //enemiesInStage.add(new Enemy(800, 50));
+    //enemiesInStage.add(new Enemy(1000, 50));
     break;
   case 2:
     enemiesInStage.add(new Enemy(200, 50));
@@ -156,6 +158,7 @@ void reset() {
 
 void draw() {
   if (gameState == 1) {
+    background(0);
     fill(255);
     textSize(20);
     text("arrow keys to move", 20, 700);
@@ -186,7 +189,7 @@ void draw() {
   
   if (gameState == 2) {
 
-    if (player.isDead()) {
+    if (player.health == 0) {
       gameState = 3;
     }
     //timer++;
@@ -197,9 +200,9 @@ void draw() {
     }
     if (stageNumber < 5) {
       if (enemiesInStage.size() == 0) {
-        //stageNumber++;
-        //setupStage(stageNumber);
-        text("NO", 500,500);
+        stageNumber++;
+        setupStage(stageNumber);
+        //text("NO", 500,500);
       }
     }
     fill(255);
@@ -252,7 +255,7 @@ void draw() {
       for (int j = 0; j < bulletsInStage.size(); j++) {
         Bullet temp = bulletsInStage.get(j);
         if (Math.abs(enemycenterX - temp.xpos) <= 15 && Math.abs(enemycenterY - temp.ypos) <= 15) {
-          enemiesInStage.get(i).takeDamage();
+          enemiesInStage.get(i).takeDamage(1);
           if (enemiesInStage.get(i).isDead()) { //testing isDead
             enemiesInStage.remove(i);
           }
@@ -261,20 +264,20 @@ void draw() {
       }
     }
 
-
+    
     for (int i = 0; i < enemiesInStage.size(); i++) {
       Enemy enemy = enemiesInStage.get(i);
       if (!player.isDead()) {
         enemy.shoot(player);
       }
       //text("Enemy Timer: " + enemy.countdown, 20, 760);
-      enemy.randomMovement(); //random Movement...?
-
+      //enemy.randomMovement(); //random Movement...?
+      print(enemy.enemyBullet.size());
       for (int j = 0; j < enemy.enemyBullet.size(); j++) {
         Bullet temp = enemy.enemyBullet.get(j);
         if (Math.abs(player.xPos - temp.xpos) <= 15 && Math.abs(player.yPos - temp.ypos) <= 15) {
           if (!godMode) {
-            player.takeDamage();
+            player.takeDamage(temp.damage);
           }
           enemy.enemyBullet.remove(temp);
         }
@@ -285,6 +288,7 @@ void draw() {
       //}
       //enemy.shoot(player);
     }
+    //print(enemiesInStage.size());
   }
   if (gameState == 3) {
     background(0);
@@ -299,4 +303,5 @@ void draw() {
       gameState = 1;
     }
   }
+
 }

@@ -16,6 +16,7 @@ public class Enemy extends Character {
   void display() {
     enemyTime++;
     if (!dead) {
+      fill(255);
       rect(xPos, yPos, 30, 30);
     }
   }
@@ -82,10 +83,10 @@ public class Enemy extends Character {
   void shoot(Character target) {
     if (!this.isDead()) {
       if (enemyBullet.size() == 0) { //no bullets in stage
-        enemyBullet.add(new Bullet(xPos+15, yPos+15, mouseX, mouseY, enemyC)); //add a bullet.
+        enemyBullet.add(new Bullet(xPos+15, yPos+15, mouseX, mouseY, color(255,0,0))); //add a bullet.
       } else if (enemyBullet.size() > 0) { //if there are bullets
         if (enemyBullet.get(enemyBullet.size()-1).countdown == 0) { //if the countdown is 0, add bullet.
-          enemyBullet.add(new Bullet(xPos+15, yPos+15, target.xPos, target.yPos, enemyC));
+          enemyBullet.add(new Bullet(xPos+15, yPos+15, target.xPos, target.yPos, color(255,0,0)));
           enemyBullet.get(enemyBullet.size()-1).countdown += 20;
         } else {
           enemyBullet.get(enemyBullet.size()-1).countdown--;
