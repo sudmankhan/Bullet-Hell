@@ -35,3 +35,7 @@ Sudman - Fixed the delay for bullets. Changed it so that it takes in a varable, 
 Andrew - Found a few bugs that have to do with HP and displaying. Tried fixing them but didn't work. Must do more testing. Made it so enemies move randomly. Movement is not incredibly jerky but it's random so the movement leaves a lot to be desired. Random movement also applies to all enemies across both current stages. Might want to edit that later based on gameplay difficulty. 
 
 Sudman - Created 5 stages (for now) with varying number and positions of enemies. Also added a start screen so you aren't immediately thrown into a game. Also added a death screen where you can choose to restart from the beginning. Might have to tweak enemy behavior based on difficulty.
+
+5/31-6/1
+
+Sudman - Added a no death mode for easier debugging (I do not want to repeatedly die, I hope you understand). Was working on adding a delay between stages but could not figure it out that well. Made 2 new classes: StrongBullet (deals double dmg and extends Bullet) and StrongEnemy (has 5 health and extends Enemy). Tweaked stages to include these enemies. Strong Bullets are purple and Strong Enemies are red for differenciating purposes. 

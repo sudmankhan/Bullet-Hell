@@ -12,11 +12,11 @@ public class Character {
     return dead;
   }
   
-  void takeDamage() {
+  void takeDamage(int dmg) {
     if (health > 0) {
-      health--;
+      health -= dmg;
     }
-    else if (health == 0) {
+    else if (health <= 0) {
       dead = true;
     }
   }
