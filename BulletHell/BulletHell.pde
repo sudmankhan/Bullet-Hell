@@ -25,7 +25,7 @@ void setup() {
   stageNumber = 0;
   gameState = 1;
   godMode = false;
-  boss = new Boss(550,75);
+  boss = new Boss(550, 75);
 }
 
 void mousePressed() {
@@ -185,8 +185,8 @@ void draw() {
       gameState = 2;
     }
   }
-  
-  
+
+
   if (gameState == 2) {
 
     if (player.isDead()) {
@@ -264,7 +264,7 @@ void draw() {
       }
     }
 
-    
+
     for (int i = 0; i < enemiesInStage.size(); i++) {
       Enemy enemy = enemiesInStage.get(i);
       if (!player.isDead()) {
@@ -274,44 +274,33 @@ void draw() {
       enemy.randomMovement(); //random Movement...?
       print(enemy.enemyBullet.size());
       for (int j = 0; j < enemy.enemyBullet.size(); j++) {
-        if (enemy.enemyBullet.get(j).type == 0) {
           Bullet temp = enemy.enemyBullet.get(j);
-        if (Math.abs(player.xPos - temp.xpos) <= 15 && Math.abs(player.yPos - temp.ypos) <= 15) {
-          if (temp.type != 1) {
-            player.takeDamage(temp.damage);
+          if (Math.abs(player.xPos - temp.xpos) <= 15 && Math.abs(player.yPos - temp.ypos) <= 15) {
+            if (!godMode) {
+              player.takeDamage(temp.damage);
+            }
             enemy.enemyBullet.remove(temp);
           }
         }
-        if (enemy.enemyBullet.get(j).type == 1) { 
-          Bullet temp2 = enemy.enemyBullet.get(j);
-          temp2.bulletLife--; //need to fix this.
-        }
-          if (!godMode) {
-            player.takeDamage(temp.damage);
-          }
-          enemy.enemyBullet.remove(temp);
-        }
+
+        //if (enemy.isDead()) {
+        //  enemiesInStage.remove(i);
+        //}
+        //enemy.shoot(player);
       }
-
-      //if (enemy.isDead()) {
-      //  enemiesInStage.remove(i);
-      //}
-      //enemy.shoot(player);
-    }
-    //print(enemiesInStage.size());
-  }
-  if (gameState == 3) {
-    background(0);
-    fill(255, 0, 0);
-    textSize(100);
-    text("You Died", 375, 400);
-    textSize(20);
-    text("press r to start over", 500, 500);
-    textSize(12);
-    if (key == 'r') {
-      reset();
-      gameState = 1;
+      //print(enemiesInStage.size());
+    if (gameState == 3) {
+      background(0);
+      fill(255, 0, 0);
+      textSize(100);
+      text("You Died", 375, 400);
+      textSize(20);
+      text("press r to start over", 500, 500);
+      textSize(12);
+      if (key == 'r') {
+        reset();
+        gameState = 1;
+      }
     }
   }
-
 }

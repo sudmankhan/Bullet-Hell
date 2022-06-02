@@ -3,8 +3,7 @@ public class Bullet {
   float xpos, ypos;
   float bulletXSpeed, bulletYSpeed;
   color clr;
-  int bulletLife;
-  int type = 0;
+  int bulletTrack;
   int damage;
 
   public Bullet(int x, int y) {
