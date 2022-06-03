@@ -6,7 +6,7 @@ ArrayList<HomingEnemy> homingEnemiesInStage;
 Player player;
 boolean[] keysPressed;
 boolean mouseHeld;
-static int timer;
+int timer = 0;
 color playerC;
 //color enemyC;
 int gameState;
@@ -160,6 +160,7 @@ void reset() {
 }
 
 void draw() {
+  timer++;
   shootrng = (int) (Math.random() * 2); //Picks random integer 0 or 1
   if (gameState == 1) {
     background(0);
@@ -195,7 +196,7 @@ void draw() {
   }
 
 //Start the game. If the player dies, switch game state to 3.
-  if (gameState == 2) {
+  if (gameState == 2) 
     if (player.isDead()) {
       //System.out.println("You die instantly"); //Debug code.
       gameState = 3;
@@ -220,6 +221,11 @@ void draw() {
     player.display();
     if (player.health > 0) {
       text("Player HP: " + player.health, 20, 780);
+      text("Seconds till next pack: " + (60 - (timer / 60) % 60), 20, 750); //Health pack timer. 1 every 60 seconds.
+    }
+    if (((timer % 60) / 60) == 0) {
+      HealthPack health = new HealthPack(mouseX, mouseY);
+      health.display();
     }
     //text("In-game Timer: " + timer, 20, 760);
     if (player.health <= 0) {
@@ -279,7 +285,7 @@ void draw() {
       //So long as the player isn't dead, shoot it.
       if (!player.isDead()) {
         //if (shootrng == 0) {
-        enemy.shootHoming(player);
+        enemy.shoot(player);
         //}
         //if (shootrng == 1) {
          //enemy.shootHoming(player);
@@ -299,7 +305,8 @@ void draw() {
           }
         }
       }
-
+    
+    //if (timer 
     if (gameState == 3) {
       background(0);
       fill(255, 0, 0);
@@ -313,5 +320,4 @@ void draw() {
         gameState = 1;
       }
     }
-  }
   }

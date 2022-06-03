@@ -2,11 +2,13 @@ public class Player extends Character {
   int shootingSpeed; 
   int movementMode;
   boolean slowMode;
+  int packsGotten;
 
   public Player(int x, int y, int shootSpeed) {
     super(x, y);
     shootingSpeed = shootSpeed;
     health = 10;
+    packsGotten = 0;
   }
 
   void setup() {
