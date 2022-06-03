@@ -12,6 +12,7 @@ color playerC;
 int gameState;
 boolean godMode;
 Boss boss;
+int shootrng = 0;
 
 void setup() {
   size(1200, 800);
@@ -45,8 +46,8 @@ void mouseReleased() {
 void setupStage(int num) {
   switch(num) {
   case 1: //TESTING
-    homingEnemiesInStage.add(new HomingEnemy(200, 50));
-    enemiesInStage.add(new Enemy(400, 50));
+    enemiesInStage.add(new Enemy(200, 50));
+    //enemiesInStage.add(new Enemy(400, 50));
     //enemiesInStage.add(new StrongEnemy(600, 50));
     //enemiesInStage.add(new Enemy(800, 50));
     //enemiesInStage.add(new Enemy(1000, 50));
@@ -159,6 +160,7 @@ void reset() {
 }
 
 void draw() {
+  shootrng = (int) (Math.random() * 2); //Picks random integer 0 or 1
   if (gameState == 1) {
     background(0);
     fill(255);
@@ -252,7 +254,7 @@ void draw() {
     //text(bulletsInStage.size(), 20, 20);
     //text(mouseX + " " + mouseY, 20, 100);
     //text(player.xPos + " " + player.yPos, 20, 120);
-
+  
     player.shoot();
 
     for (int i = 0; i < enemiesInStage.size(); i++) {
@@ -276,7 +278,13 @@ void draw() {
       
       //So long as the player isn't dead, shoot it.
       if (!player.isDead()) {
-        enemy.shoot(player); 
+        //if (shootrng == 0) {
+        enemy.shootHoming(player);
+        //}
+        //if (shootrng == 1) {
+         //enemy.shootHoming(player);
+         //System.out.println("SHOOTING HOMING");
+        //}
       }
       //text("Enemy Timer: " + enemy.countdown, 20, 760);
       enemy.randomMovement(); //random Movement...?
