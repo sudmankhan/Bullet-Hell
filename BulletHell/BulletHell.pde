@@ -2,6 +2,7 @@ int stageNumber;
 ArrayList<Enemy> enemiesInStage;
 ArrayList<Bullet> bulletsInStage;
 ArrayList<Bullet> enemyBulletsInStage;
+ArrayList<HomingEnemy> homingEnemiesInStage;
 Player player;
 boolean[] keysPressed;
 boolean mouseHeld;
@@ -18,6 +19,7 @@ void setup() {
   keysPressed = new boolean[5]; 
   player = new Player(600, 600, 5);
   enemiesInStage = new ArrayList<Enemy>();
+  homingEnemiesInStage = new ArrayList<HomingEnemy>();
   bulletsInStage = new ArrayList<Bullet>();
   enemyBulletsInStage = new ArrayList<Bullet>();
   playerC = color(0, 162, 255);
@@ -42,12 +44,12 @@ void mouseReleased() {
 
 void setupStage(int num) {
   switch(num) {
-  case 1:
-    enemiesInStage.add(new Enemy(200, 50));
+  case 1: //TESTING
+    homingEnemiesInStage.add(new HomingEnemy(200, 50));
     enemiesInStage.add(new Enemy(400, 50));
-    enemiesInStage.add(new StrongEnemy(600, 50));
-    enemiesInStage.add(new Enemy(800, 50));
-    enemiesInStage.add(new Enemy(1000, 50));
+    //enemiesInStage.add(new StrongEnemy(600, 50));
+    //enemiesInStage.add(new Enemy(800, 50));
+    //enemiesInStage.add(new Enemy(1000, 50));
     break;
   case 2:
     enemiesInStage.add(new Enemy(200, 50));
@@ -169,12 +171,16 @@ void draw() {
     text("gaem", 450, 400);
     textSize(20);
     text("click anywhere to begin", 475, 475);
-    if (stageNumber < 5) {
+    
+    //If the state number is less than 5 and there are no more enemies in a stage, increase the stageNumber and setup the next stage.
+    if (stageNumber < 5) { 
       if (enemiesInStage.size() == 0) {
         stageNumber++;
         setupStage(stageNumber);
       }
     }
+    
+    //Display the enemies that aren't dead and display the player
     player.display();
     for (int i = 0; i < enemiesInStage.size(); i++) {
       if (!enemiesInStage.get(i).isDead()) {  
@@ -186,10 +192,10 @@ void draw() {
     }
   }
 
-
+//Start the game. If the player dies, switch game state to 3.
   if (gameState == 2) {
-
     if (player.isDead()) {
+      //System.out.println("You die instantly"); //Debug code.
       gameState = 3;
     }
     //timer++;
@@ -267,12 +273,14 @@ void draw() {
 
     for (int i = 0; i < enemiesInStage.size(); i++) {
       Enemy enemy = enemiesInStage.get(i);
+      
+      //So long as the player isn't dead, shoot it.
       if (!player.isDead()) {
-        enemy.shoot(player);
+        enemy.shoot(player); 
       }
       //text("Enemy Timer: " + enemy.countdown, 20, 760);
       enemy.randomMovement(); //random Movement...?
-      print(enemy.enemyBullet.size());
+      //print(enemy.enemyBullet.size());
       for (int j = 0; j < enemy.enemyBullet.size(); j++) {
           Bullet temp = enemy.enemyBullet.get(j);
           if (Math.abs(player.xPos - temp.xpos) <= 15 && Math.abs(player.yPos - temp.ypos) <= 15) {
@@ -282,13 +290,8 @@ void draw() {
             enemy.enemyBullet.remove(temp);
           }
         }
-
-        //if (enemy.isDead()) {
-        //  enemiesInStage.remove(i);
-        //}
-        //enemy.shoot(player);
       }
-      //print(enemiesInStage.size());
+
     if (gameState == 3) {
       background(0);
       fill(255, 0, 0);
