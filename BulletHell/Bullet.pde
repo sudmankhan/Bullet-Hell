@@ -3,8 +3,10 @@ public class Bullet {
   float xpos, ypos;
   float bulletXSpeed, bulletYSpeed;
   color clr;
+  int bulletTrack;
   int damage;
-
+  int type = 0;
+  
   public Bullet(int x, int y) {
     xpos = x;
     ypos = y;
@@ -19,6 +21,7 @@ public class Bullet {
     ypos = y;
     float angle = PI / 2; //In the event that some weird glitch happens, let's hope that the bullets will at least shoot up.
     float angle2 = angle;
+    if (type == 0) {
     if (targetX - xpos != 0) {
       angle = atan(Math.abs((targetY - ypos))/Math.abs((targetX - xpos))); //finds a first quadrant angle.
       //System.out.println("Angle:" + (angle * 180 / PI));
@@ -42,6 +45,7 @@ public class Bullet {
     countdown = 0;
     clr = colr;
     damage = 1;
+    }
   }
 
 

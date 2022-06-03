@@ -57,11 +57,10 @@ public class Player extends Character {
     if (mouseHeld && !dead) {
       if (bulletsInStage.size() == 0) { //no bullets in stage
         bulletsInStage.add(new Bullet(player.xPos, player.yPos, mouseX, mouseY, playerC)); //add a bullet.
-        bulletsInStage.add(new Bullet(player.xPos+50, player.yPos+50, mouseX, mouseY, playerC)); //add a bullet.
       } else if (bulletsInStage.size() > 0) { //if there are bullets
         if (bulletsInStage.get(bulletsInStage.size()-1).countdown == 0) { //if the countdown is 0, add bullet.
           bulletsInStage.add(new Bullet(player.xPos, player.yPos, mouseX, mouseY, playerC));
-          bulletsInStage.add(new Bullet(player.xPos+50, player.yPos+50, mouseX, mouseY, playerC)); //add a bullet.
+         
           bulletsInStage.get(bulletsInStage.size()-1).countdown += shootingSpeed;
         } else {
           bulletsInStage.get(bulletsInStage.size()-1).countdown--;
