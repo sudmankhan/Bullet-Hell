@@ -39,3 +39,8 @@ Sudman - Created 5 stages (for now) with varying number and positions of enemies
 5/31-6/1
 
 Sudman - Added a no death mode for easier debugging (I do not want to repeatedly die, I hope you understand). Was working on adding a delay between stages but could not figure it out that well. Made 2 new classes: StrongBullet (deals double dmg and extends Bullet) and StrongEnemy (has 5 health and extends Enemy). Tweaked stages to include these enemies. Strong Bullets are purple and Strong Enemies are red for differenciating purposes. 
+
+Andrew - Started to work on Homing Bullets. Having some difficulty.
+
+6/2 - 6/5 
+Andrew - Gave up on the homing bullets. There are other features that I could implement that are more valuable and a better use of my time. Changed a few visual things to do with the text layout and added Health Packs. They spawn in the middle of the screen every minute and despawn if not collected after 5 seconds. If the player collects a health packet (by running over it), then it will also disappear. 

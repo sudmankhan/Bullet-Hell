@@ -160,6 +160,7 @@ void reset() {
 }
 
 void draw() {
+  println(gameState);
   shootrng = (int) (Math.random() * 2); //Picks random integer 0 or 1
   if (gameState == 1) {
     background(0);
@@ -196,7 +197,7 @@ void draw() {
 
   //Start the game. If the player dies, switch game state to 3.
   if (gameState == 2) {
-    if (player.isDead()) {
+    if (player.health <= 0) {
       //System.out.println("You die instantly"); //Debug code.
       gameState = 3;
     }
@@ -308,6 +309,7 @@ void draw() {
       text("press r to start over", 500, 500);
       textSize(12);
       if (key == 'r') {
+        println("r pressed");
         reset();
         gameState = 1;
       }

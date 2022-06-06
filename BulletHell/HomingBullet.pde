@@ -18,7 +18,6 @@ public class HomingBullet extends Bullet {
     float angle = PI / 2; //In the event that some weird glitch happens, let's hope that the bullets will at least shoot up.
     float angle2 = angle;
     if (type == 1) {
-      System.out.println("I CAN SEE THIS");
       while (player.xPos - xpos != 0 && bulletTrack != 0) {
         angle = atan(Math.abs((player.yPos - ypos))/Math.abs((player.xPos - xpos))); //finds a first quadrant angle.
         //System.out.println("Angle:" + (angle * 180 / PI));
@@ -36,14 +35,12 @@ public class HomingBullet extends Bullet {
         }
         bulletTrack--;
       }
-      System.out.println("I CAN SEE THIS 2");
       bulletXSpeed = 5 * cos(angle2);
       bulletYSpeed = -5 * sin(angle2);
       //System.out.println("bulletYSpeed: " + bulletYSpeed);
       //System.out.println("bulletXSpeed: " + bulletXSpeed);
       countdown = 0;
       clr = colr;
-      System.out.println("I CAN SEE THIS 3");
       damage = 1;
     }
   }
@@ -66,7 +63,6 @@ public class HomingBullet extends Bullet {
         }
         bulletTrack--;
       }
-      System.out.println("I CAN SEE THIS 2");
       bulletXSpeed = 5 * cos(angle2);
       bulletYSpeed = -5 * sin(angle2);
     xpos += bulletXSpeed; //go right by xspeed
