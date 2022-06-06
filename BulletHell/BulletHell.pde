@@ -28,7 +28,7 @@ void setup() {
   //enemyC = color(255, 0, 0);
   stageNumber = 0;
   gameState = 1;
-  godMode = true; //Godmode
+  godMode = false; //Godmode
   boss = new Boss(550, 75);
 }
 
@@ -158,6 +158,8 @@ void reset() {
   player.yPos = 600;
   enemiesInStage.clear();
   stageNumber = 0;
+  healthCollected = false;
+  timer = 0;
 }
 
 void draw() {
@@ -195,13 +197,13 @@ void draw() {
       gameState = 2;
     }
   }
-
   //Start the game. If the player dies, switch game state to 3.
-  if (gameState == 2) 
+  if (gameState == 2) {
     if (player.isDead()) {
       //System.out.println("You die instantly"); //Debug code.
       gameState = 3;
     }
+  
   //timer++;
   background(0);
   if (godMode) {
@@ -221,7 +223,7 @@ void draw() {
   text("Stage " + stageNumber, 20, 40);
   textSize(12);
   player.display();
-  
+
   //Health and Health Packs
   if (player.health > 0) {
     text("Player HP: " + player.health, 20, 780);
@@ -230,7 +232,7 @@ void draw() {
   }
   HealthPack health = new HealthPack(600 - 25, 400 - 25);
   if (timer % 3600 == 0) {
-   healthCollected = false; 
+    healthCollected = false;
   }
   if (((timer / 60) % 60) <= 5) {
     health.avaliable = true;
@@ -245,8 +247,9 @@ void draw() {
   }
   if (player.health <= 0) {
     text("You died!", 20, 780);
+    player.dead = true;
   }
-  
+
   //Enemies
   for (int i = 0; i < enemiesInStage.size(); i++) {
     if (!enemiesInStage.get(i).isDead()) {  
@@ -322,8 +325,7 @@ void draw() {
       }
     }
   }
-
-  //if (timer 
+  }
   if (gameState == 3) {
     background(0);
     fill(255, 0, 0);
