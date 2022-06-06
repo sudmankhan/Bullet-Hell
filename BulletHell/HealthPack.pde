@@ -2,6 +2,7 @@ public class HealthPack{
   float x;
   float y;
   int timer = 0;
+  boolean avaliable = false;
   
   public HealthPack(int xPos, int yPos) {
     x = xPos;
