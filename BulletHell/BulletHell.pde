@@ -206,7 +206,8 @@ void draw() {
   background(0);
   if (godMode) {
     fill(255);
-    text("God Mode", 20, 760);
+    textSize(20);
+    text("God Mode", 1080, 760);
   }
   if (stageNumber < 5) {
     if (enemiesInStage.size() == 0) {
@@ -220,18 +221,20 @@ void draw() {
   text("Stage " + stageNumber, 20, 40);
   textSize(12);
   player.display();
+  
+  //Health and Health Packs
   if (player.health > 0) {
     text("Player HP: " + player.health, 20, 780);
-    text("Timer: " + timer, 20, 730);
-    text("Seconds till next pack: " + (60 - (timer / 60) % 60), 20, 750); //Health pack timer. 1 every 60 seconds.
+    text("Timer: " + timer, 20, 740);
+    text("Seconds till next pack: " + (60 - (timer / 60) % 60), 20, 760); //Health pack timer. 1 every 60 seconds.
   }
   HealthPack health = new HealthPack(600 - 25, 400 - 25);
-  System.out.println(" " + !healthCollected);
-  System.out.println("Avaliable: " + health.avaliable);
+  if (timer % 3600 == 0) {
+   healthCollected = false; 
+  }
   if (((timer / 60) % 60) <= 5) {
     health.avaliable = true;
-    healthCollected = false;
-    System.out.println("hi");
+    //healthCollected = false;
   }
   if (player.xPos >= health.x && player.xPos <= health.x + 50 && player.yPos >= health.y && player.yPos <= health.y + 50 && !healthCollected) {
     player.health++;
@@ -240,10 +243,11 @@ void draw() {
   if (health.avaliable && !healthCollected) {
     health.display();
   }
-  //text("In-game Timer: " + timer, 20, 760);
   if (player.health <= 0) {
     text("You died!", 20, 780);
   }
+  
+  //Enemies
   for (int i = 0; i < enemiesInStage.size(); i++) {
     if (!enemiesInStage.get(i).isDead()) {  
       enemiesInStage.get(i).display();
