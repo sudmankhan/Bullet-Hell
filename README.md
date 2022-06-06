@@ -44,3 +44,6 @@ Andrew - Started to work on Homing Bullets. Having some difficulty.
 
 6/2 - 6/5 
 Andrew - Gave up on the homing bullets. There are other features that I could implement that are more valuable and a better use of my time. Changed a few visual things to do with the text layout and added Health Packs. They spawn in the middle of the screen every minute and despawn if not collected after 5 seconds. If the player collects a health packet (by running over it), then it will also disappear. 
+
+6/6
+Andrew - Fixed minor bugs with game stage display and health packet timing.
