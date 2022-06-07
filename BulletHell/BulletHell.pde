@@ -12,8 +12,10 @@ color playerC;
 int gameState;
 boolean godMode;
 Boss boss;
-int shootrng = 0;
+int poweruprng = 0;
 boolean healthCollected = false;
+boolean damageCollected = false;
+int extraDamage;
 
 void setup() {
   size(1200, 800);
@@ -30,6 +32,7 @@ void setup() {
   gameState = 1;
   godMode = false; //Godmode
   boss = new Boss(550, 75);
+  extraDamage = 0;
 }
 
 void mousePressed() {
@@ -164,7 +167,7 @@ void reset() {
 
 void draw() {
   timer++;
-  shootrng = (int) (Math.random() * 2); //Picks random integer 0 or 1
+  poweruprng = (int) (Math.random() * 1); //Picks random integer 0, 1, 2, 3, or 4. Set to  * 1 for testing. Must change it back to * 5 later.
   if (gameState == 1) {
     background(0);
     fill(255);
@@ -203,128 +206,128 @@ void draw() {
       //System.out.println("You die instantly"); //Debug code.
       gameState = 3;
     }
-  
-  //timer++;
-  background(0);
-  if (godMode) {
-    fill(255);
-    textSize(20);
-    text("God Mode", 1080, 760);
-  }
-  if (stageNumber < 5) {
-    if (enemiesInStage.size() == 0) {
-      stageNumber++;
-      setupStage(stageNumber);
-      //text("NO", 500,500);
+
+    //timer++;
+    background(0);
+    if (godMode) {
+      fill(255);
+      textSize(20);
+      text("God Mode", 1080, 760);
     }
-  }
-  fill(255);
-  textSize(25);
-  text("Stage " + stageNumber, 20, 40);
-  textSize(12);
-  player.display();
-
-  //Health and Health Packs
-  if (player.health > 0) {
-    text("Player HP: " + player.health, 20, 780);
-    text("Timer: " + timer, 20, 740);
-    text("Seconds till next pack: " + (60 - (timer / 60) % 60), 20, 760); //Health pack timer. 1 every 60 seconds.
-  }
-  HealthPack health = new HealthPack(600 - 25, 400 - 25);
-  if (timer % 3600 == 0) {
-    healthCollected = false;
-  }
-  if (((timer / 60) % 60) <= 5) {
-    health.avaliable = true;
-    //healthCollected = false;
-  }
-  if (player.xPos >= health.x && player.xPos <= health.x + 50 && player.yPos >= health.y && player.yPos <= health.y + 50 && !healthCollected) {
-    player.health++;
-    healthCollected = true;
-  }
-  if (health.avaliable && !healthCollected) {
-    health.display();
-  }
-  if (player.health <= 0) {
-    text("You died!", 20, 780);
-    player.dead = true;
-  }
-
-  //Enemies
-  for (int i = 0; i < enemiesInStage.size(); i++) {
-    if (!enemiesInStage.get(i).isDead()) {  
-      enemiesInStage.get(i).display();
-      text("HP: " + enemiesInStage.get(i).health, enemiesInStage.get(i).xPos, enemiesInStage.get(i).yPos); //Text.
-      if (enemiesInStage.get(i).health <= 0) { //Putting this here because of a weird glitch with isDead.
-        enemiesInStage.remove(i);
+    if (stageNumber < 5) {
+      if (enemiesInStage.size() == 0) {
+        stageNumber++;
+        setupStage(stageNumber);
+        //text("NO", 500,500);
       }
     }
-  }
-  circle(mouseX, mouseY, 5);
-  if (keysPressed[0]) {
-    player.moveUp();
-  }
-  if (keysPressed[1]) {
-    player.moveLeft();
-  }
-  if (keysPressed[2]) {
-    player.moveDown();
-  }
-  if (keysPressed[3]) {
-    player.moveRight();
-  }
+    fill(255);
+    textSize(25);
+    text("Stage " + stageNumber, 20, 40);
+    textSize(12);
+    player.display();
 
-  player.slowMode = keysPressed[4];
+    //Health and Health Packs and Damage Boosts
+    if (player.health > 0) {
+      text("Player HP: " + player.health, 20, 780);
+      text("Timer: " + timer, 20, 740);
+      text("Seconds till next pack: " + (60 - (timer / 60) % 60), 20, 760); //Health pack timer. 1 every 60 seconds.
+    }
+    DamageBoost boost = new DamageBoost(enemiesInStage.get(i).xPos, enemiesInStage.get(i).yPos, (int) Math.random() * 3);
+    if (poweruprng == 0) { //DAMAGE BOOST DROP 
+      boost.avaliable = true;
+      boost.display();
+    }
+    HealthPack health = new HealthPack(600 - 25, 400 - 25);
+    if (timer % 3600 == 0) {
+      healthCollected = false;
+    }
+    if (((timer / 60) % 60) <= 5) {
+      health.avaliable = true;
+      //healthCollected = false;
+    }
+    if (player.xPos >= health.x && player.xPos <= health.x + 50 && player.yPos >= health.y && player.yPos <= health.y + 50 && !healthCollected) {
+      player.health++;
+      healthCollected = true;
+    }
+    if (health.avaliable && !healthCollected) {
+      health.display();
+    }
+    if (player.health <= 0) {
+      text("You died!", 20, 780);
+      player.dead = true;
+    }
 
-  fill(255);
-  //text(bulletsInStage.size(), 20, 20);
-  //text(mouseX + " " + mouseY, 20, 100);
-  //text(player.xPos + " " + player.yPos, 20, 120);
-
-  player.shoot();
-
-  for (int i = 0; i < enemiesInStage.size(); i++) {
-    int enemycenterX = enemiesInStage.get(i).xPos + 15;
-    int enemycenterY = enemiesInStage.get(i).yPos + 15;
-    for (int j = 0; j < bulletsInStage.size(); j++) {
-      Bullet temp = bulletsInStage.get(j);
-      if (Math.abs(enemycenterX - temp.xpos) <= 15 && Math.abs(enemycenterY - temp.ypos) <= 15) {
-        enemiesInStage.get(i).takeDamage(1);
-        if (enemiesInStage.get(i).isDead()) { //testing isDead
+    //Enemies
+    for (int i = 0; i < enemiesInStage.size(); i++) {
+      if (!enemiesInStage.get(i).isDead()) {  
+        enemiesInStage.get(i).display();
+        text("HP: " + enemiesInStage.get(i).health, enemiesInStage.get(i).xPos, enemiesInStage.get(i).yPos); //Text.
+        if (enemiesInStage.get(i).health <= 0) { //Putting this here because of a weird glitch with isDead.
           enemiesInStage.remove(i);
         }
-        bulletsInStage.remove(temp);
       }
     }
-  }
 
-
-  for (int i = 0; i < enemiesInStage.size(); i++) {
-    Enemy enemy = enemiesInStage.get(i);
-
-    //So long as the player isn't dead, shoot it.
-    if (!player.isDead()) {
-      //if (shootrng == 0) {
-      enemy.shoot(player);
-      //}
-      //if (shootrng == 1) {
-      //enemy.shootHoming(player);
-      //System.out.println("SHOOTING HOMING");
-      //}
+    circle(mouseX, mouseY, 5);
+    if (keysPressed[0]) {
+      player.moveUp();
     }
-    //text("Enemy Timer: " + enemy.countdown, 20, 760);
-    enemy.randomMovement(); //random Movement...?
-    //print(enemy.enemyBullet.size());
-    for (int j = 0; j < enemy.enemyBullet.size(); j++) {
-      Bullet temp = enemy.enemyBullet.get(j);
-      if (Math.abs(player.xPos - temp.xpos) <= 15 && Math.abs(player.yPos - temp.ypos) <= 15) {
-        if (!godMode) {
-          player.takeDamage(temp.damage);
+    if (keysPressed[1]) {
+      player.moveLeft();
+    }
+    if (keysPressed[2]) {
+      player.moveDown();
+    }
+    if (keysPressed[3]) {
+      player.moveRight();
+    }
+
+    player.slowMode = keysPressed[4];
+
+    fill(255);
+    //text(bulletsInStage.size(), 20, 20);
+    //text(mouseX + " " + mouseY, 20, 100);
+    //text(player.xPos + " " + player.yPos, 20, 120);
+
+    player.shoot();
+
+    for (int i = 0; i < enemiesInStage.size(); i++) {
+      int enemycenterX = enemiesInStage.get(i).xPos + 15;
+      int enemycenterY = enemiesInStage.get(i).yPos + 15;
+      for (int j = 0; j < bulletsInStage.size(); j++) {
+        Bullet temp = bulletsInStage.get(j);
+        if (Math.abs(enemycenterX - temp.xpos) <= 15 && Math.abs(enemycenterY - temp.ypos) <= 15) {
+          enemiesInStage.get(i).takeDamage(1 + extraDamage);
+          if (enemiesInStage.get(i).isDead()) { //testing isDead
+            enemiesInStage.remove(i);
+          }
+          bulletsInStage.remove(temp);
         }
-        enemy.enemyBullet.remove(temp);
       }
     }
-  }
+
+
+    for (int i = 0; i < enemiesInStage.size(); i++) {
+      Enemy enemy = enemiesInStage.get(i);
+
+      //So long as the player isn't dead, shoot it.
+      if (!player.isDead()) {
+        enemy.shoot(player);
+      }
+      enemy.randomMovement(); //Random Movement
+
+      //Enemies shooting bullets
+      for (int j = 0; j < enemy.enemyBullet.size(); j++) {
+        Bullet temp = enemy.enemyBullet.get(j);
+        if (Math.abs(player.xPos - temp.xpos) <= 15 && Math.abs(player.yPos - temp.ypos) <= 15) {
+          if (!godMode) {
+            player.takeDamage(temp.damage);
+          }
+          enemy.enemyBullet.remove(temp);
+        }
+      }
+    }
   }
   if (gameState == 3) {
     background(0);
