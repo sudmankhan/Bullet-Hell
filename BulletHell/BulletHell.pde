@@ -1,18 +1,20 @@
 int stageNumber;
 ArrayList<Enemy> enemiesInStage;
+ArrayList<ScatterEnemy> scatterEnemiesInStage;
 ArrayList<Bullet> bulletsInStage;
 ArrayList<Bullet> enemyBulletsInStage;
 ArrayList<HomingEnemy> homingEnemiesInStage;
 Player player;
 boolean[] keysPressed;
 boolean mouseHeld;
-static int timer;
+int timer = 0;
 color playerC;
 //color enemyC;
 int gameState;
 boolean godMode;
 Boss boss;
 int shootrng = 0;
+boolean healthCollected = false;
 
 void setup() {
   size(1200, 800);
@@ -27,11 +29,7 @@ void setup() {
   //enemyC = color(255, 0, 0);
   stageNumber = 0;
   gameState = 1;
-<<<<<<< HEAD
-  godMode = false;
-=======
   godMode = false; //Godmode
->>>>>>> 972402f6653783383a70bf6fa0e77ee317e7b9f9
   boss = new Boss(550, 75);
 }
 
@@ -50,11 +48,11 @@ void mouseReleased() {
 void setupStage(int num) {
   switch(num) {
   case 1: //TESTING
-    enemiesInStage.add(new HomingEnemy(200, 50));
-    enemiesInStage.add(new Enemy(400, 50));
-    enemiesInStage.add(new StrongEnemy(600, 50));
-    enemiesInStage.add(new Enemy(800, 50));
-    enemiesInStage.add(new Enemy(1000, 50));
+    enemiesInStage.add(new Enemy(200, 50));
+    //enemiesInStage.add(new Enemy(400, 50));
+    //enemiesInStage.add(new StrongEnemy(600, 50));
+    //enemiesInStage.add(new Enemy(800, 50));
+    //enemiesInStage.add(new Enemy(1000, 50));
     break;
   case 2:
     enemiesInStage.add(new Enemy(200, 50));
@@ -166,7 +164,7 @@ void reset() {
 }
 
 void draw() {
-  println(gameState);
+  timer++;
   shootrng = (int) (Math.random() * 2); //Picks random integer 0 or 1
   if (gameState == 1) {
     background(0);
@@ -202,16 +200,17 @@ void draw() {
   }
   //Start the game. If the player dies, switch game state to 3.
   if (gameState == 2) {
-<<<<<<< HEAD
-    if (player.health <= 0) {
+    if (player.isDead()) {
       //System.out.println("You die instantly"); //Debug code.
       gameState = 3;
     }
+
     //timer++;
     background(0);
     if (godMode) {
       fill(255);
-      text("God Mode", 20, 760);
+      textSize(20);
+      text("God Mode", 1080, 760);
     }
     if (stageNumber < 5) {
       if (enemiesInStage.size() == 0) {
@@ -220,29 +219,39 @@ void draw() {
         //text("NO", 500,500);
       }
     }
-=======
-    if (player.isDead()) {
-      //System.out.println("You die instantly"); //Debug code.
-      gameState = 3;
-    }
-  
-  //timer++;
-  background(0);
-  if (godMode) {
->>>>>>> 972402f6653783383a70bf6fa0e77ee317e7b9f9
     fill(255);
     textSize(25);
     text("Stage " + stageNumber, 20, 40);
     textSize(12);
     player.display();
+
+    //Health and Health Packs
     if (player.health > 0) {
       text("Player HP: " + player.health, 20, 780);
+      text("Timer: " + timer, 20, 740);
+      text("Seconds till next pack: " + (60 - (timer / 60) % 60), 20, 760); //Health pack timer. 1 every 60 seconds.
     }
-<<<<<<< HEAD
-    //text("In-game Timer: " + timer, 20, 760);
+    HealthPack health = new HealthPack(600 - 25, 400 - 25);
+    if (timer % 3600 == 0) {
+      healthCollected = false;
+    }
+    if (((timer / 60) % 60) <= 5) {
+      health.avaliable = true;
+      //healthCollected = false;
+    }
+    if (player.xPos >= health.x && player.xPos <= health.x + 50 && player.yPos >= health.y && player.yPos <= health.y + 50 && !healthCollected) {
+      player.health++;
+      healthCollected = true;
+    }
+    if (health.avaliable && !healthCollected) {
+      health.display();
+    }
     if (player.health <= 0) {
       text("You died!", 20, 780);
+      player.dead = true;
     }
+
+    //Enemies
     for (int i = 0; i < enemiesInStage.size(); i++) {
       if (!enemiesInStage.get(i).isDead()) {  
         enemiesInStage.get(i).display();
@@ -250,48 +259,6 @@ void draw() {
         if (enemiesInStage.get(i).health <= 0) { //Putting this here because of a weird glitch with isDead.
           enemiesInStage.remove(i);
         }
-=======
-  }
-  fill(255);
-  textSize(25);
-  text("Stage " + stageNumber, 20, 40);
-  textSize(12);
-  player.display();
-
-  //Health and Health Packs
-  if (player.health > 0) {
-    text("Player HP: " + player.health, 20, 780);
-    text("Timer: " + timer, 20, 740);
-    text("Seconds till next pack: " + (60 - (timer / 60) % 60), 20, 760); //Health pack timer. 1 every 60 seconds.
-  }
-  HealthPack health = new HealthPack(600 - 25, 400 - 25);
-  if (timer % 3600 == 0) {
-    healthCollected = false;
-  }
-  if (((timer / 60) % 60) <= 5) {
-    health.avaliable = true;
-    //healthCollected = false;
-  }
-  if (player.xPos >= health.x && player.xPos <= health.x + 50 && player.yPos >= health.y && player.yPos <= health.y + 50 && !healthCollected) {
-    player.health++;
-    healthCollected = true;
-  }
-  if (health.avaliable && !healthCollected) {
-    health.display();
-  }
-  if (player.health <= 0) {
-    text("You died!", 20, 780);
-    player.dead = true;
-  }
-
-  //Enemies
-  for (int i = 0; i < enemiesInStage.size(); i++) {
-    if (!enemiesInStage.get(i).isDead()) {  
-      enemiesInStage.get(i).display();
-      text("HP: " + enemiesInStage.get(i).health, enemiesInStage.get(i).xPos, enemiesInStage.get(i).yPos); //Text.
-      if (enemiesInStage.get(i).health <= 0) { //Putting this here because of a weird glitch with isDead.
-        enemiesInStage.remove(i);
->>>>>>> 972402f6653783383a70bf6fa0e77ee317e7b9f9
       }
     }
     circle(mouseX, mouseY, 5);
@@ -335,6 +302,8 @@ void draw() {
 
     for (int i = 0; i < enemiesInStage.size(); i++) {
       Enemy enemy = enemiesInStage.get(i);
+
+      //So long as the player isn't dead, shoot it.
       if (!player.isDead()) {
         //if (shootrng == 0) {
         enemy.shoot(player);
@@ -346,7 +315,6 @@ void draw() {
       }
       //text("Enemy Timer: " + enemy.countdown, 20, 760);
       enemy.randomMovement(); //random Movement...?
-
       //print(enemy.enemyBullet.size());
       for (int j = 0; j < enemy.enemyBullet.size(); j++) {
         Bullet temp = enemy.enemyBullet.get(j);
@@ -358,23 +326,33 @@ void draw() {
         }
       }
     }
-<<<<<<< HEAD
+    
+    for (int i = 0; i < scatterEnemiesInStage.size(); i++) {
+      Enemy enemy = scatterEnemiesInStage.get(i);
 
-    if (gameState == 3) {
-      background(0);
-      fill(255, 0, 0);
-      textSize(100);
-      text("You Died", 375, 400);
-      textSize(20);
-      text("press r to start over", 500, 500);
-      textSize(12);
-      if (key == 'r') {
-        println("r pressed");
-        reset();
-        gameState = 1;
+      //So long as the player isn't dead, shoot it.
+      if (!player.isDead()) {
+        //if (shootrng == 0) {
+        enemy.shoot(player);
+        //}
+        //if (shootrng == 1) {
+        //enemy.shootHoming(player);
+        //System.out.println("SHOOTING HOMING");
+        //}
       }
-=======
-  }
+      //text("Enemy Timer: " + enemy.countdown, 20, 760);
+      enemy.randomMovement(); //random Movement...?
+      //print(enemy.enemyBullet.size());
+      for (int j = 0; j < enemy.enemyBullet.size(); j++) {
+        Bullet temp = enemy.enemyBullet.get(j);
+        if (Math.abs(player.xPos - temp.xpos) <= 15 && Math.abs(player.yPos - temp.ypos) <= 15) {
+          if (!godMode) {
+            player.takeDamage(temp.damage);
+          }
+          enemy.enemyBullet.remove(temp);
+        }
+      }
+    }
   }
   if (gameState == 3) {
     background(0);
@@ -387,7 +365,6 @@ void draw() {
     if (key == 'r') {
       reset();
       gameState = 1;
->>>>>>> 972402f6653783383a70bf6fa0e77ee317e7b9f9
     }
   }
 }
