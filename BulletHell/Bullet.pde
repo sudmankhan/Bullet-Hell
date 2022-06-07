@@ -6,21 +6,24 @@ public class Bullet {
   int bulletTrack;
   int damage;
   int type = 0;
+  float angle;
+  float angle2;
   
-  public Bullet(int x, int y) {
+  public Bullet(int x, int y, color colr) {
     xpos = x;
     ypos = y;
     bulletXSpeed = 10;
     bulletYSpeed = 1;
     countdown = 0;
     damage = 1;
+    clr = colr;
   }
 
   public Bullet(int x, int y, int targetX, int targetY, color colr) {
     xpos = x;
     ypos = y;
-    float angle = PI / 2; //In the event that some weird glitch happens, let's hope that the bullets will at least shoot up.
-    float angle2 = angle;
+    angle = PI / 2; //In the event that some weird glitch happens, let's hope that the bullets will at least shoot up.
+    angle2 = angle;
     if (type == 0) {
     if (targetX - xpos != 0) {
       angle = atan(Math.abs((targetY - ypos))/Math.abs((targetX - xpos))); //finds a first quadrant angle.

@@ -47,7 +47,7 @@ void mouseReleased() {
 void setupStage(int num) {
   switch(num) {
   case 1: //TESTING
-    enemiesInStage.add(new ScatterEnemy(200, 50));
+    enemiesInStage.add(new Enemy(200, 50));
     //enemiesInStage.add(new Enemy(400, 50));
     //enemiesInStage.add(new StrongEnemy(600, 50));
     //enemiesInStage.add(new Enemy(800, 50));

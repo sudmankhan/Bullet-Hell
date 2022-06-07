@@ -3,8 +3,8 @@ public class HomingBullet extends Bullet {
   int bulletTrack = 60;
   int type = 1;
 
-  public HomingBullet(int x, int y) {
-    super(x, y);
+  public HomingBullet(int x, int y, color colr) {
+    super(x, y, colr);
     bulletTrack = 60;
   }
 

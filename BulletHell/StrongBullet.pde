@@ -1,7 +1,7 @@
 public class StrongBullet extends Bullet {
 
-  public StrongBullet(int x, int y) {
-    super(x,y);
+  public StrongBullet(int x, int y, color colr) {
+    super(x,y,colr);
     damage = 2;
   }
 
