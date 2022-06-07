@@ -27,7 +27,11 @@ void setup() {
   //enemyC = color(255, 0, 0);
   stageNumber = 0;
   gameState = 1;
+<<<<<<< HEAD
   godMode = false;
+=======
+  godMode = false; //Godmode
+>>>>>>> 972402f6653783383a70bf6fa0e77ee317e7b9f9
   boss = new Boss(550, 75);
 }
 
@@ -157,6 +161,8 @@ void reset() {
   player.yPos = 600;
   enemiesInStage.clear();
   stageNumber = 0;
+  healthCollected = false;
+  timer = 0;
 }
 
 void draw() {
@@ -194,9 +200,9 @@ void draw() {
       gameState = 2;
     }
   }
-
   //Start the game. If the player dies, switch game state to 3.
   if (gameState == 2) {
+<<<<<<< HEAD
     if (player.health <= 0) {
       //System.out.println("You die instantly"); //Debug code.
       gameState = 3;
@@ -214,6 +220,16 @@ void draw() {
         //text("NO", 500,500);
       }
     }
+=======
+    if (player.isDead()) {
+      //System.out.println("You die instantly"); //Debug code.
+      gameState = 3;
+    }
+  
+  //timer++;
+  background(0);
+  if (godMode) {
+>>>>>>> 972402f6653783383a70bf6fa0e77ee317e7b9f9
     fill(255);
     textSize(25);
     text("Stage " + stageNumber, 20, 40);
@@ -222,6 +238,7 @@ void draw() {
     if (player.health > 0) {
       text("Player HP: " + player.health, 20, 780);
     }
+<<<<<<< HEAD
     //text("In-game Timer: " + timer, 20, 760);
     if (player.health <= 0) {
       text("You died!", 20, 780);
@@ -233,6 +250,48 @@ void draw() {
         if (enemiesInStage.get(i).health <= 0) { //Putting this here because of a weird glitch with isDead.
           enemiesInStage.remove(i);
         }
+=======
+  }
+  fill(255);
+  textSize(25);
+  text("Stage " + stageNumber, 20, 40);
+  textSize(12);
+  player.display();
+
+  //Health and Health Packs
+  if (player.health > 0) {
+    text("Player HP: " + player.health, 20, 780);
+    text("Timer: " + timer, 20, 740);
+    text("Seconds till next pack: " + (60 - (timer / 60) % 60), 20, 760); //Health pack timer. 1 every 60 seconds.
+  }
+  HealthPack health = new HealthPack(600 - 25, 400 - 25);
+  if (timer % 3600 == 0) {
+    healthCollected = false;
+  }
+  if (((timer / 60) % 60) <= 5) {
+    health.avaliable = true;
+    //healthCollected = false;
+  }
+  if (player.xPos >= health.x && player.xPos <= health.x + 50 && player.yPos >= health.y && player.yPos <= health.y + 50 && !healthCollected) {
+    player.health++;
+    healthCollected = true;
+  }
+  if (health.avaliable && !healthCollected) {
+    health.display();
+  }
+  if (player.health <= 0) {
+    text("You died!", 20, 780);
+    player.dead = true;
+  }
+
+  //Enemies
+  for (int i = 0; i < enemiesInStage.size(); i++) {
+    if (!enemiesInStage.get(i).isDead()) {  
+      enemiesInStage.get(i).display();
+      text("HP: " + enemiesInStage.get(i).health, enemiesInStage.get(i).xPos, enemiesInStage.get(i).yPos); //Text.
+      if (enemiesInStage.get(i).health <= 0) { //Putting this here because of a weird glitch with isDead.
+        enemiesInStage.remove(i);
+>>>>>>> 972402f6653783383a70bf6fa0e77ee317e7b9f9
       }
     }
     circle(mouseX, mouseY, 5);
@@ -299,6 +358,7 @@ void draw() {
         }
       }
     }
+<<<<<<< HEAD
 
     if (gameState == 3) {
       background(0);
@@ -313,6 +373,21 @@ void draw() {
         reset();
         gameState = 1;
       }
+=======
+  }
+  }
+  if (gameState == 3) {
+    background(0);
+    fill(255, 0, 0);
+    textSize(100);
+    text("You Died", 375, 400);
+    textSize(20);
+    text("press r to start over", 500, 500);
+    textSize(12);
+    if (key == 'r') {
+      reset();
+      gameState = 1;
+>>>>>>> 972402f6653783383a70bf6fa0e77ee317e7b9f9
     }
   }
 }
