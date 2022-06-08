@@ -231,7 +231,7 @@ void draw() {
       text("Player HP: " + player.health, 20, 780);
       text("Timer: " + timer, 20, 740);
       text("Seconds till next pack: " + (60 - (timer / 60) % 60), 20, 760); //Health pack timer. 1 every 60 seconds.
-      text("Damage boost: " + extraDamage, 20, 720);
+      text("Damage Boost: " + extraDamage, 20, 720);
     }
     poweruprng = (int) (Math.random() * 1); //Picks random integer 0, 1, 2, 3, ..., 3600. Set to  * 1 for testing. Must change it back to * 3600 later.
     //there is a 1/3600 chance the powerup spawns per frame so it statistically spawns about once every minute.
@@ -254,11 +254,13 @@ void draw() {
     if (((timer / 60) % 60) <= 5) {
       health.avaliable = true;
       boost.avaliable = false;
+      extraDamage = 0;
       //healthCollected = false;
     }
     if (player.xPos >= health.x && player.xPos <= health.x + 50 && player.yPos >= health.y && player.yPos <= health.y + 50 && !healthCollected) {
       player.health++;
       healthCollected = true;
+      boost.avaliable = true;
     }
     if (health.avaliable && !healthCollected) {
       boost.avaliable = false;
