@@ -233,7 +233,7 @@ void draw() {
       text("Seconds till next pack: " + (60 - (timer / 60) % 60), 20, 760); //Health pack timer. 1 every 60 seconds.
       text("Damage Boost: " + extraDamage, 20, 720);
     }
-    poweruprng = (int) (Math.random() * 1); //Picks random integer 0, 1, 2, 3, ..., 3600. Set to  * 1 for testing. Must change it back to * 3600 later.
+    poweruprng = (int) (Math.random() * 60); //Picks random integer 0, 1, 2, 3, ..., 3600. Set to  * 60 for testing. Must change it back to * 3600 later.
     //there is a 1/3600 chance the powerup spawns per frame so it statistically spawns about once every minute.
     DamageBoost boost = new DamageBoost(575, 375, (int) Math.random() * 2 + 1); //1 or 2
     HealthPack health = new HealthPack(575, 375);
@@ -254,6 +254,7 @@ void draw() {
     if (((timer / 60) % 60) <= 5) {
       health.avaliable = true;
       boost.avaliable = false;
+      damageCollected = false;
       extraDamage = 0;
       //healthCollected = false;
     }
