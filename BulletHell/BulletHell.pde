@@ -167,7 +167,6 @@ void reset() {
 
 void draw() {
   timer++;
-  poweruprng = (int) (Math.random() * 1); //Picks random integer 0, 1, 2, 3, or 4. Set to  * 1 for testing. Must change it back to * 5 later.
   if (gameState == 1) {
     background(0);
     fill(255);
@@ -232,18 +231,29 @@ void draw() {
       text("Player HP: " + player.health, 20, 780);
       text("Timer: " + timer, 20, 740);
       text("Seconds till next pack: " + (60 - (timer / 60) % 60), 20, 760); //Health pack timer. 1 every 60 seconds.
+      text("Damage boost: " + extraDamage, 20, 720);
     }
-    DamageBoost boost = new DamageBoost(enemiesInStage.get(i).xPos, enemiesInStage.get(i).yPos, (int) Math.random() * 3);
-    if (poweruprng == 0) { //DAMAGE BOOST DROP 
+    poweruprng = (int) (Math.random() * 1); //Picks random integer 0, 1, 2, 3, ..., 3600. Set to  * 1 for testing. Must change it back to * 3600 later.
+    //there is a 1/3600 chance the powerup spawns per frame so it statistically spawns about once every minute.
+    DamageBoost boost = new DamageBoost(575, 375, (int) Math.random() * 2 + 1); //1 or 2
+    HealthPack health = new HealthPack(575, 375);
+    if (poweruprng == 0) { //DAMAGE BOOST DROPPED 1/5 OF THE TIME (currently 1/1)
       boost.avaliable = true;
+      health.avaliable = false;
+    }
+    if (boost.avaliable && !damageCollected) {
       boost.display();
     }
-    HealthPack health = new HealthPack(600 - 25, 400 - 25);
+    if (player.xPos >= boost.x && player.xPos <= boost.x + 50 && player.yPos >= boost.y && player.yPos <= boost.y + 50 && !damageCollected) {
+      extraDamage += boost.addedDamage;
+      damageCollected = true;
+    }
     if (timer % 3600 == 0) {
       healthCollected = false;
     }
     if (((timer / 60) % 60) <= 5) {
       health.avaliable = true;
+      boost.avaliable = false;
       //healthCollected = false;
     }
     if (player.xPos >= health.x && player.xPos <= health.x + 50 && player.yPos >= health.y && player.yPos <= health.y + 50 && !healthCollected) {
@@ -251,6 +261,7 @@ void draw() {
       healthCollected = true;
     }
     if (health.avaliable && !healthCollected) {
+      boost.avaliable = false;
       health.display();
     }
     if (player.health <= 0) {
