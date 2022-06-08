@@ -1,6 +1,6 @@
 int stageNumber;
 ArrayList<Enemy> enemiesInStage;
-ArrayList<ScatterEnemy> scatterEnemiesInStage;
+//ArrayList<ScatterEnemy> scatterEnemiesInStage;
 ArrayList<Bullet> bulletsInStage;
 ArrayList<Bullet> enemyBulletsInStage;
 ArrayList<HomingEnemy> homingEnemiesInStage;
@@ -15,6 +15,8 @@ boolean godMode;
 Boss boss;
 int shootrng = 0;
 boolean healthCollected = false;
+int skipStageCountdown;
+boolean canSkip;
 
 void setup() {
   size(1200, 800);
@@ -31,6 +33,8 @@ void setup() {
   gameState = 1;
   godMode = false; //Godmode
   boss = new Boss(550, 75);
+  skipStageCountdown = 0;
+  canSkip = false;
 }
 
 void mousePressed() {
@@ -131,6 +135,9 @@ void keyPressed() {
   if (key == 'g') {
     godMode = !godMode;
   }
+  if (key == 'p') {
+    canSkip = true;
+  }
 }
 
 
@@ -161,9 +168,11 @@ void reset() {
   stageNumber = 0;
   healthCollected = false;
   timer = 0;
+  canSkip = false;
 }
 
 void draw() {
+  println(stageNumber);
   timer++;
   shootrng = (int) (Math.random() * 2); //Picks random integer 0 or 1
   if (gameState == 1) {
@@ -212,11 +221,21 @@ void draw() {
       textSize(20);
       text("God Mode", 1080, 760);
     }
-    if (stageNumber < 5) {
+    if (stageNumber <= 5) {
       if (enemiesInStage.size() == 0) {
         stageNumber++;
         setupStage(stageNumber);
         //text("NO", 500,500);
+      }
+      if (canSkip && skipStageCountdown == 0) {
+        enemiesInStage.clear();
+        stageNumber++;
+        setupStage(stageNumber);
+        skipStageCountdown += 10;
+        canSkip = false;
+      }
+      else if (skipStageCountdown > 0) {
+        skipStageCountdown -= 1;
       }
     }
     fill(255);
@@ -327,32 +346,32 @@ void draw() {
       }
     }
     
-    for (int i = 0; i < scatterEnemiesInStage.size(); i++) {
-      Enemy enemy = scatterEnemiesInStage.get(i);
+    //for (int i = 0; i < scatterEnemiesInStage.size(); i++) {
+    //  Enemy enemy = scatterEnemiesInStage.get(i);
 
-      //So long as the player isn't dead, shoot it.
-      if (!player.isDead()) {
-        //if (shootrng == 0) {
-        enemy.shoot(player);
-        //}
-        //if (shootrng == 1) {
-        //enemy.shootHoming(player);
-        //System.out.println("SHOOTING HOMING");
-        //}
-      }
-      //text("Enemy Timer: " + enemy.countdown, 20, 760);
-      enemy.randomMovement(); //random Movement...?
-      //print(enemy.enemyBullet.size());
-      for (int j = 0; j < enemy.enemyBullet.size(); j++) {
-        Bullet temp = enemy.enemyBullet.get(j);
-        if (Math.abs(player.xPos - temp.xpos) <= 15 && Math.abs(player.yPos - temp.ypos) <= 15) {
-          if (!godMode) {
-            player.takeDamage(temp.damage);
-          }
-          enemy.enemyBullet.remove(temp);
-        }
-      }
-    }
+    //  //So long as the player isn't dead, shoot it.
+    //  if (!player.isDead()) {
+    //    //if (shootrng == 0) {
+    //    enemy.shoot(player);
+    //    //}
+    //    //if (shootrng == 1) {
+    //    //enemy.shootHoming(player);
+    //    //System.out.println("SHOOTING HOMING");
+    //    //}
+    //  }
+    //  //text("Enemy Timer: " + enemy.countdown, 20, 760);
+    //  enemy.randomMovement(); //random Movement...?
+    //  //print(enemy.enemyBullet.size());
+    //  for (int j = 0; j < enemy.enemyBullet.size(); j++) {
+    //    Bullet temp = enemy.enemyBullet.get(j);
+    //    if (Math.abs(player.xPos - temp.xpos) <= 15 && Math.abs(player.yPos - temp.ypos) <= 15) {
+    //      if (!godMode) {
+    //        player.takeDamage(temp.damage);
+    //      }
+    //      enemy.enemyBullet.remove(temp);
+    //    }
+    //  }
+    //}
   }
   if (gameState == 3) {
     background(0);
