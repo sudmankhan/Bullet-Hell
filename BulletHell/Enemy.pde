@@ -84,7 +84,7 @@ public class Enemy extends Character {
   void shoot(Character target) {
     if (!this.isDead()) {
       if (enemyBullet.size() == 0) { //no bullets in stage
-        enemyBullet.add(new Bullet(xPos+15, yPos+15, mouseX, mouseY, color(255, 0, 0))); //add a bullet.
+        enemyBullet.add(new Bullet(xPos+15, yPos+15, target.xPos, target.yPos, color(255, 0, 0))); //add a bullet.
       } else if (enemyBullet.size() > 0) { //if there are bullets
         if (enemyBullet.get(enemyBullet.size()-1).countdown == 0) { //if the countdown is 0, add bullet.
           enemyBullet.add(new Bullet(xPos+15, yPos+15, target.xPos, target.yPos, color(255, 0, 0)));
@@ -105,24 +105,6 @@ public class Enemy extends Character {
     }
     //text(enemyBullet.size(), 20, 40);
   }
-  
-  void shootHoming(Character target) {
-    if (!this.isDead() && enemyTime % 100 != 0) {
-      if (enemyBullet.size() == 0) { //no bullets in stage
-        enemyBullet.add(new Bullet(xPos+15, yPos+15, mouseX, mouseY, color(255, 182, 193))); //add a bullet.
-      } else if (enemyBullet.size() > 0) { //if there are bullets
-        if (enemyBullet.get(enemyBullet.size()-1).countdown == 0) { //if the countdown is 0, add bullet.
-          enemyBullet.add(new Bullet(xPos+15, yPos+15, target.xPos, target.yPos, color(255, 182, 193)));
-          enemyBullet.get(enemyBullet.size()-1).countdown += 20;
-        } else {
-          enemyBullet.get(enemyBullet.size()-1).countdown--;
-        }
-      }
-      System.out.println("Still shooting");
-    }
-    System.out.println("Done shooting.");
-  }
-  
   
   boolean hitTarget(Character x) {
     for (int i = 0; i < enemyBullet.size(); i++) {
