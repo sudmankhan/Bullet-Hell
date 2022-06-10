@@ -17,6 +17,7 @@ int shootrng = 0;
 boolean healthCollected = false;
 int skipStageCountdown;
 boolean canSkip;
+int timeBetweenStages;
 
 void setup() {
   size(1200, 800);
@@ -135,7 +136,7 @@ void keyPressed() {
   if (key == 'g') {
     godMode = !godMode;
   }
-  if (key == 'p') {
+  if (key == 'q') {
     canSkip = true;
   }
 }
@@ -223,8 +224,12 @@ void draw() {
     }
     if (stageNumber <= 5) {
       if (enemiesInStage.size() == 0) {
-        stageNumber++;
-        setupStage(stageNumber);
+        gameState = 4;
+        //text("stage" + stageNumber+1,400,600);
+        //delay(500);
+        //text("stage" + stageNumber+1,400,600);
+        //stageNumber++;
+        //setupStage(stageNumber);
         //text("NO", 500,500);
       }
       if (canSkip && skipStageCountdown == 0) {
@@ -371,18 +376,26 @@ void draw() {
     //    }
     //  }
     //}
-    
+
     if (stageNumber == 6) {
       boss.display();
       boss.shootSpiral();
+      for (int j = 0; j < boss.enemyBullet.size(); j++) {
+        Bullet temp = boss.enemyBullet.get(j);
+        if (Math.abs(player.xPos - temp.xpos) <= 15 && Math.abs(player.yPos - temp.ypos) <= 15) {
+          if (!godMode) {
+            player.takeDamage(1);
+          }
+          boss.enemyBullet.remove(temp);
+        }
+      }
     }
-    
   }
-  
-  
-  
-  
-  
+
+
+
+
+
   if (gameState == 3) {
     background(0);
     fill(255, 0, 0);
@@ -394,6 +407,17 @@ void draw() {
     if (key == 'r') {
       reset();
       gameState = 1;
+    }
+  }
+
+  if (gameState == 4) {
+    text("Stage " + stageNumber+1, 400, 600);
+    timeBetweenStages = 5;
+    timeBetweenStages -= 1;
+    if (timeBetweenStages == 0) {
+      stageNumber += 1;
+      setupStage(stageNumber);
+      gameState = 2;
     }
   }
 }
