@@ -45,5 +45,12 @@ Andrew - Started to work on Homing Bullets. Having some difficulty.
 6/2 - 6/5 
 Andrew - Gave up on the homing bullets. There are other features that I could implement that are more valuable and a better use of my time. Changed a few visual things to do with the text layout and added Health Packs. They spawn in the middle of the screen every minute and despawn if not collected after 5 seconds. If the player collects a health packet (by running over it), then it will also disappear. 
 
+Sudman - Trying to add a delay before each stage starts so the player has some time to prepare before facing a barrage of bullets. It hasn't worked out so well yet. Put this on hold to start working on homing bullets and a scattershot.
+
 6/6
 Andrew - Fixed minor bugs with game stage display and health packet timing.
+
+Sudman - Different bullet types is going to be difficult to implement because of the way we set up the bullet shooting. Going to put other bullet types on hold for now in favor of other features.
+
+6/7-6/9
+Sudman - Added a skip stage button to easily access stages instead of suffering. Working on a boss. Boss display has been done a while ago (just a rectangle for now, a placeholder). Thought of 5 attacks for now. Done implementing one (a spiral attack thing) but may need to tweak later for difficulty purposes.
