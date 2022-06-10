@@ -172,7 +172,7 @@ void reset() {
 }
 
 void draw() {
-  println(stageNumber);
+  //println(stageNumber);
   timer++;
   shootrng = (int) (Math.random() * 2); //Picks random integer 0 or 1
   if (gameState == 1) {
@@ -371,7 +371,18 @@ void draw() {
     //    }
     //  }
     //}
+    
+    if (stageNumber == 6) {
+      boss.display();
+      boss.shootSpiral();
+    }
+    
   }
+  
+  
+  
+  
+  
   if (gameState == 3) {
     background(0);
     fill(255, 0, 0);
