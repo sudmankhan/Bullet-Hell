@@ -18,6 +18,7 @@ boolean healthCollected = false;
 int skipStageCountdown;
 boolean canSkip;
 int timeBetweenStages;
+float alpha;
 
 void setup() {
   size(1200, 800);
@@ -36,6 +37,7 @@ void setup() {
   boss = new Boss(550, 75);
   skipStageCountdown = 0;
   canSkip = false;
+  alpha = 0;
 }
 
 void mousePressed() {
@@ -411,13 +413,37 @@ void draw() {
   }
 
   if (gameState == 4) {
-    text("Stage " + stageNumber+1, 400, 600);
-    timeBetweenStages = 5;
-    timeBetweenStages -= 1;
+    background(0);
+    textSize(25);
+    fill(255);
+    //alpha += 50;
+    text("Stage " + (stageNumber + 1), 450, 400);
+    textSize(12);
+    player.display();
+    bulletsInStage.clear();
+    if (keysPressed[0]) {
+      player.moveUp();
+    }
+    if (keysPressed[1]) {
+      player.moveLeft();
+    }
+    if (keysPressed[2]) {
+      player.moveDown();
+    }
+    if (keysPressed[3]) {
+      player.moveRight();
+    }
+    if (timeBetweenStages == 0) {
+      timeBetweenStages += 250;
+    } else {
+      timeBetweenStages -= 1;
+    }
     if (timeBetweenStages == 0) {
       stageNumber += 1;
       setupStage(stageNumber);
       gameState = 2;
     }
   }
+  //timeBetweenStages -= 1;
+  println(gameState);
 }
