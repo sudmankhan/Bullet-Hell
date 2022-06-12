@@ -3,7 +3,6 @@ ArrayList<Enemy> enemiesInStage;
 //ArrayList<ScatterEnemy> scatterEnemiesInStage;
 ArrayList<Bullet> bulletsInStage;
 ArrayList<Bullet> enemyBulletsInStage;
-ArrayList<HomingEnemy> homingEnemiesInStage;
 Player player;
 boolean[] keysPressed;
 boolean mouseHeld;
@@ -16,9 +15,10 @@ Boss boss;
 int shootrng = 0;
 boolean healthCollected = false;
 int skipStageCountdown;
+int keyCountdown;
 boolean canSkip;
 int timeBetweenStages;
-float alpha;
+int textx;
 
 void setup() {
   size(1200, 800);
@@ -26,7 +26,6 @@ void setup() {
   keysPressed = new boolean[5]; 
   player = new Player(600, 600, 5);
   enemiesInStage = new ArrayList<Enemy>();
-  homingEnemiesInStage = new ArrayList<HomingEnemy>();
   bulletsInStage = new ArrayList<Bullet>();
   enemyBulletsInStage = new ArrayList<Bullet>();
   playerC = color(0, 162, 255);
@@ -37,7 +36,7 @@ void setup() {
   boss = new Boss(550, 75);
   skipStageCountdown = 0;
   canSkip = false;
-  alpha = 0;
+  keyCountdown = 0;
 }
 
 void mousePressed() {
@@ -56,10 +55,10 @@ void setupStage(int num) {
   switch(num) {
   case 1: //TESTING
     enemiesInStage.add(new Enemy(200, 50));
-    //enemiesInStage.add(new Enemy(400, 50));
-    //enemiesInStage.add(new StrongEnemy(600, 50));
-    //enemiesInStage.add(new Enemy(800, 50));
-    //enemiesInStage.add(new Enemy(1000, 50));
+    enemiesInStage.add(new Enemy(400, 50));
+    enemiesInStage.add(new StrongEnemy(600, 50));
+    enemiesInStage.add(new Enemy(800, 50));
+    enemiesInStage.add(new Enemy(1000, 50));
     break;
   case 2:
     enemiesInStage.add(new Enemy(200, 50));
@@ -172,6 +171,9 @@ void reset() {
   healthCollected = false;
   timer = 0;
   canSkip = false;
+  boss.health = 250;
+  boss.dead = false;
+  boss.phaseCountdown = 100;
 }
 
 void draw() {
@@ -185,6 +187,7 @@ void draw() {
     text("arrow keys to move", 20, 700);
     text("mouse to aim", 20, 740);
     text("hold spacebar to go slower and dodge better", 20, 780);
+    text("press c to see cheat menu", 20, 660);
     text("welcome to", 525, 315);
     textSize(100);
     text("gaem", 450, 400);
@@ -208,6 +211,9 @@ void draw() {
     }
     if (mousePressed) {
       gameState = 2;
+    }
+    if (key == 'c') {
+      gameState = 6;
     }
   }
   //Start the game. If the player dies, switch game state to 3.
@@ -380,20 +386,59 @@ void draw() {
     //}
 
     if (stageNumber == 6) {
-      boss.display();
-      boss.shootSpiral();
-      for (int j = 0; j < boss.enemyBullet.size(); j++) {
-        Bullet temp = boss.enemyBullet.get(j);
-        if (Math.abs(player.xPos - temp.xpos) <= 15 && Math.abs(player.yPos - temp.ypos) <= 15) {
-          if (!godMode) {
-            player.takeDamage(1);
-          }
-          boss.enemyBullet.remove(temp);
+      if (!boss.isDead()) {
+        if (key == 'b' && boss.health > 125) {
+          boss.health = 125;
         }
+        boss.phaseCountdown--;
+        boss.display();
+        if (boss.health == 125 && boss.shieldHealth != 0) { 
+          boss.shieldOn = true;
+        }
+        if (boss.shieldHealth <= 0) {
+          boss.shieldOn = false;
+        }
+        float hel = boss.health * (1160.0/boss.maxHealth);
+        boss.displayHealthBar(hel);
+        fill(255);
+        if (boss.phaseCountdown > 0) {
+          boss.shootCircle();
+        } else {
+          boss.shootSpiral();
+          if (enemiesInStage.size() < 10) {
+            boss.summonMinion();
+          }
+        }
+        for (int j = 0; j < bulletsInStage.size(); j++) {
+          int enemycenterX = boss.xPos + 25;
+          int enemycenterY = boss.yPos + 20;
+          Bullet temp = bulletsInStage.get(j);
+          if (Math.abs(enemycenterX - temp.xpos) <= 25 && Math.abs(enemycenterY - temp.ypos) <= 20) {
+            if (boss.shieldOn) {
+              boss.shieldHealth--;
+            } else {
+            boss.takeDamage(1);
+            }
+            //if (enemiesInStage.get(i).isDead()) { //testing isDead
+            //  enemiesInStage.remove(i);
+            //}
+            bulletsInStage.remove(temp);
+          }
+        }
+        for (int j = 0; j < boss.enemyBullet.size(); j++) {
+          Bullet temp = boss.enemyBullet.get(j);
+          if (Math.abs(player.xPos - temp.xpos) <= 15 && Math.abs(player.yPos - temp.ypos) <= 15) {
+            if (!godMode) {
+              player.takeDamage(1);
+            }
+            boss.enemyBullet.remove(temp);
+          }
+        }
+      } else {
+        gameState = 5;
       }
     }
   }
-
 
 
 
@@ -415,9 +460,17 @@ void draw() {
   if (gameState == 4) {
     background(0);
     textSize(25);
-    fill(255);
     //alpha += 50;
-    text("Stage " + (stageNumber + 1), 450, 400);
+    fill(255);
+    if (stageNumber == 5) {
+      fill(255, 0, 0);
+      textSize(100);
+      text("Boss", textx, 400);
+      fill(255);
+    } else {
+      text("Stage " + (stageNumber + 1), textx, 400);
+    }
+    textx += 5;
     textSize(12);
     player.display();
     bulletsInStage.clear();
@@ -442,8 +495,36 @@ void draw() {
       stageNumber += 1;
       setupStage(stageNumber);
       gameState = 2;
+      textx = 0;
     }
   }
+
+  if (gameState == 5) {
+    background(255);
+    fill(0);
+    textSize(100);
+    text("You Won!", 375, 400);
+    textSize(20);
+    text("press r to play again", 500, 500);
+    textSize(12);
+    if (key == 'r') {
+      reset();
+      gameState = 1;
+    }
+  }
+
+  if (gameState == 6) {
+    background(255);
+    fill(0);
+    textSize(25);
+    text("g: god mode", 450, 350);
+    text("q: skip stage", 450, 400);
+    text("b: deplete half of boss health", 450, 450);
+    text("z: go back", 450, 500);
+    if (key == 'z') {
+      gameState = 1;
+    }
+    textSize(12);
+  }
   //timeBetweenStages -= 1;
-  println(gameState);
 }
