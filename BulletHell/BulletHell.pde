@@ -12,14 +12,16 @@ color playerC;
 int gameState;
 boolean godMode;
 Boss boss;
-int poweruprng = 0;
+int shootrng = 0;
 boolean healthCollected = false;
 boolean damageCollected = false;
-int extraDamage;
 int skipStageCountdown;
+int keyCountdown;
 boolean canSkip;
 int timeBetweenStages;
-float alpha;
+int textx;
+int poweruprng = 0;
+int extraDamage;
 
 void setup() {
   size(1200, 800);
@@ -35,10 +37,9 @@ void setup() {
   gameState = 1;
   godMode = false; //Godmode
   boss = new Boss(550, 75);
-  extraDamage = 0;
   skipStageCountdown = 0;
   canSkip = false;
-  alpha = 0;
+  keyCountdown = 0;
 }
 
 void mousePressed() {
@@ -57,10 +58,10 @@ void setupStage(int num) {
   switch(num) {
   case 1: //TESTING
     enemiesInStage.add(new Enemy(200, 50));
-    //enemiesInStage.add(new Enemy(400, 50));
-    //enemiesInStage.add(new StrongEnemy(600, 50));
-    //enemiesInStage.add(new Enemy(800, 50));
-    //enemiesInStage.add(new Enemy(1000, 50));
+    enemiesInStage.add(new Enemy(400, 50));
+    enemiesInStage.add(new StrongEnemy(600, 50));
+    enemiesInStage.add(new Enemy(800, 50));
+    enemiesInStage.add(new Enemy(1000, 50));
     break;
   case 2:
     enemiesInStage.add(new Enemy(200, 50));
@@ -173,11 +174,15 @@ void reset() {
   healthCollected = false;
   timer = 0;
   canSkip = false;
+  boss.health = 250;
+  boss.dead = false;
+  boss.phaseCountdown = 100;
 }
 
 void draw() {
   //println(stageNumber);
   timer++;
+  shootrng = (int) (Math.random() * 2); //Picks random integer 0 or 1
   if (gameState == 1) {
     background(0);
     fill(255);
@@ -185,6 +190,7 @@ void draw() {
     text("arrow keys to move", 20, 700);
     text("mouse to aim", 20, 740);
     text("hold spacebar to go slower and dodge better", 20, 780);
+    text("press c to see cheat menu", 20, 660);
     text("welcome to", 525, 315);
     textSize(100);
     text("gaem", 450, 400);
@@ -209,6 +215,9 @@ void draw() {
     if (mousePressed) {
       gameState = 2;
     }
+    if (key == 'c') {
+      gameState = 6;
+    }
   }
   //Start the game. If the player dies, switch game state to 3.
   if (gameState == 2) {
@@ -224,11 +233,24 @@ void draw() {
       textSize(20);
       text("God Mode", 1080, 760);
     }
-    if (stageNumber < 5) {
+    if (stageNumber <= 5) {
       if (enemiesInStage.size() == 0) {
+        gameState = 4;
+        //text("stage" + stageNumber+1,400,600);
+        //delay(500);
+        //text("stage" + stageNumber+1,400,600);
+        //stageNumber++;
+        //setupStage(stageNumber);
+        //text("NO", 500,500);
+      }
+      if (canSkip && skipStageCountdown == 0) {
+        enemiesInStage.clear();
         stageNumber++;
         setupStage(stageNumber);
-        //text("NO", 500,500);
+        skipStageCountdown += 10;
+        canSkip = false;
+      } else if (skipStageCountdown > 0) {
+        skipStageCountdown -= 1;
       }
     }
     fill(255);
@@ -244,9 +266,9 @@ void draw() {
       text("Seconds till next pack: " + (60 - (timer / 60) % 60), 20, 760); //Health pack timer. 1 every 60 seconds.
       text("Damage Boost: " + extraDamage, 20, 720);
     }
-    poweruprng = (int) (Math.random() * 60); //Picks random integer 0, 1, 2, 3, ..., 3600. Set to  * 60 for testing. Must change it back to * 3600 later.
+    poweruprng = (int) (Math.random() * 1); //Picks random integer 0, 1, 2, 3, ..., 3600. Set to  * 60 for testing. Must change it back to * 3600 later.
     //there is a 1/3600 chance the powerup spawns per frame so it statistically spawns about once every minute.
-    DamageBoost boost = new DamageBoost(575, 375, (int) Math.random() * 2 + 1); //1 or 2
+    DamageBoost boost = new DamageBoost(300, 375, (int) Math.random() * 2 + 1); //1 or 2
     HealthPack health = new HealthPack(575, 375);
     if (poweruprng == 0) { //DAMAGE BOOST DROPPED 1/5 OF THE TIME (currently 1/1)
       boost.avaliable = true;
@@ -282,58 +304,6 @@ void draw() {
       text("You died!", 20, 780);
       player.dead = true;
     }
-    }
-    if (stageNumber <= 5) {
-      if (enemiesInStage.size() == 0) {
-        gameState = 4;
-        //text("stage" + stageNumber+1,400,600);
-        //delay(500);
-        //text("stage" + stageNumber+1,400,600);
-        //stageNumber++;
-        //setupStage(stageNumber);
-        //text("NO", 500,500);
-      }
-      if (canSkip && skipStageCountdown == 0) {
-        enemiesInStage.clear();
-        stageNumber++;
-        setupStage(stageNumber);
-        skipStageCountdown += 10;
-        canSkip = false;
-      } else if (skipStageCountdown > 0) {
-        skipStageCountdown -= 1;
-      }
-    }
-    fill(255);
-    textSize(25);
-    text("Stage " + stageNumber, 20, 40);
-    textSize(12);
-    player.display();
-
-    //Health and Health Packs
-    if (player.health > 0) {
-      text("Player HP: " + player.health, 20, 780);
-      text("Timer: " + timer, 20, 740);
-      text("Seconds till next pack: " + (60 - (timer / 60) % 60), 20, 760); //Health pack timer. 1 every 60 seconds.
-    }
-    HealthPack health = new HealthPack(600 - 25, 400 - 25);
-    if (timer % 3600 == 0) {
-      healthCollected = false;
-    }
-    if (((timer / 60) % 60) <= 5) {
-      health.avaliable = true;
-      //healthCollected = false;
-    }
-    if (player.xPos >= health.x && player.xPos <= health.x + 50 && player.yPos >= health.y && player.yPos <= health.y + 50 && !healthCollected) {
-      player.health++;
-      healthCollected = true;
-    }
-    if (health.avaliable && !healthCollected) {
-      health.display();
-    }
-    if (player.health <= 0) {
-      text("You died!", 20, 780);
-      player.dead = true;
-    }
 
     //Enemies
     for (int i = 0; i < enemiesInStage.size(); i++) {
@@ -345,7 +315,6 @@ void draw() {
         }
       }
     }
-
     circle(mouseX, mouseY, 5);
     if (keysPressed[0]) {
       player.moveUp();
@@ -363,33 +332,19 @@ void draw() {
     player.slowMode = keysPressed[4];
 
     fill(255);
+    //text(bulletsInStage.size(), 20, 20);
+    //text(mouseX + " " + mouseY, 20, 100);
+    //text(player.xPos + " " + player.yPos, 20, 120);
 
     player.shoot();
-    circle(mouseX, mouseY, 5);
-    if (keysPressed[0]) {
-      player.moveUp();
-    }
-    if (keysPressed[1]) {
-      player.moveLeft();
-    }
-    if (keysPressed[2]) {
-      player.moveDown();
-    }
-    if (keysPressed[3]) {
-      player.moveRight();
-    }
 
-    player.slowMode = keysPressed[4];
-    fill(255);
-
-    player.shoot();
     for (int i = 0; i < enemiesInStage.size(); i++) {
       int enemycenterX = enemiesInStage.get(i).xPos + 15;
       int enemycenterY = enemiesInStage.get(i).yPos + 15;
       for (int j = 0; j < bulletsInStage.size(); j++) {
         Bullet temp = bulletsInStage.get(j);
         if (Math.abs(enemycenterX - temp.xpos) <= 15 && Math.abs(enemycenterY - temp.ypos) <= 15) {
-          enemiesInStage.get(i).takeDamage(1 + extraDamage);
+          enemiesInStage.get(i).takeDamage(1);
           if (enemiesInStage.get(i).isDead()) { //testing isDead
             enemiesInStage.remove(i);
           }
@@ -404,9 +359,17 @@ void draw() {
 
       //So long as the player isn't dead, shoot it.
       if (!player.isDead()) {
+        //if (shootrng == 0) {
         enemy.shoot(player);
+        //}
+        //if (shootrng == 1) {
+        //enemy.shootHoming(player);
+        //System.out.println("SHOOTING HOMING");
+        //}
       }
-      enemy.randomMovement(); //Random Movement
+      //text("Enemy Timer: " + enemy.countdown, 20, 760);
+      enemy.randomMovement(); //random Movement...?
+      //print(enemy.enemyBullet.size());
       for (int j = 0; j < enemy.enemyBullet.size(); j++) {
         Bullet temp = enemy.enemyBullet.get(j);
         if (Math.abs(player.xPos - temp.xpos) <= 15 && Math.abs(player.yPos - temp.ypos) <= 15) {
@@ -418,19 +381,88 @@ void draw() {
       }
     }
 
+    //for (int i = 0; i < scatterEnemiesInStage.size(); i++) {
+    //  Enemy enemy = scatterEnemiesInStage.get(i);
+
+    //  //So long as the player isn't dead, shoot it.
+    //  if (!player.isDead()) {
+    //    //if (shootrng == 0) {
+    //    enemy.shoot(player);
+    //    //}
+    //    //if (shootrng == 1) {
+    //    //enemy.shootHoming(player);
+    //    //System.out.println("SHOOTING HOMING");
+    //    //}
+    //  }
+    //  //text("Enemy Timer: " + enemy.countdown, 20, 760);
+    //  enemy.randomMovement(); //random Movement...?
+    //  //print(enemy.enemyBullet.size());
+    //  for (int j = 0; j < enemy.enemyBullet.size(); j++) {
+    //    Bullet temp = enemy.enemyBullet.get(j);
+    //    if (Math.abs(player.xPos - temp.xpos) <= 15 && Math.abs(player.yPos - temp.ypos) <= 15) {
+    //      if (!godMode) {
+    //        player.takeDamage(temp.damage);
+    //      }
+    //      enemy.enemyBullet.remove(temp);
+    //    }
+    //  }
+    //}
+
     if (stageNumber == 6) {
-      boss.display();
-      boss.shootSpiral();
-      for (int j = 0; j < boss.enemyBullet.size(); j++) {
-        Bullet temp = boss.enemyBullet.get(j);
-        if (Math.abs(player.xPos - temp.xpos) <= 15 && Math.abs(player.yPos - temp.ypos) <= 15) {
-          if (!godMode) {
-            player.takeDamage(1);
-          }
-          boss.enemyBullet.remove(temp);
+      if (!boss.isDead()) {
+        if (key == 'b' && boss.health > 125) {
+          boss.health = 125;
         }
+        boss.phaseCountdown--;
+        boss.display();
+        if (boss.health == 125 && boss.shieldHealth != 0) { 
+          boss.shieldOn = true;
+        }
+        if (boss.shieldHealth <= 0) {
+          boss.shieldOn = false;
+        }
+        float hel = boss.health * (1160.0/boss.maxHealth);
+        boss.displayHealthBar(hel);
+        fill(255);
+        if (boss.phaseCountdown > 0) {
+          boss.shootCircle();
+        } else {
+          boss.shootSpiral();
+          if (enemiesInStage.size() < 10) {
+            boss.summonMinion();
+          }
+        }
+        for (int j = 0; j < bulletsInStage.size(); j++) {
+          int enemycenterX = boss.xPos + 25;
+          int enemycenterY = boss.yPos + 20;
+          Bullet temp = bulletsInStage.get(j);
+          if (Math.abs(enemycenterX - temp.xpos) <= 25 && Math.abs(enemycenterY - temp.ypos) <= 20) {
+            if (boss.shieldOn) {
+              boss.shieldHealth--;
+            } else {
+              boss.takeDamage(1);
+            }
+            //if (enemiesInStage.get(i).isDead()) { //testing isDead
+            //  enemiesInStage.remove(i);
+            //}
+            bulletsInStage.remove(temp);
+          }
+        }
+        for (int j = 0; j < boss.enemyBullet.size(); j++) {
+          Bullet temp = boss.enemyBullet.get(j);
+          if (Math.abs(player.xPos - temp.xpos) <= 15 && Math.abs(player.yPos - temp.ypos) <= 15) {
+            if (!godMode) {
+              player.takeDamage(1);
+            }
+            boss.enemyBullet.remove(temp);
+          }
+        }
+      } else {
+        gameState = 5;
       }
     }
+  }
+
 
   if (gameState == 3) {
     background(0);
@@ -449,9 +481,17 @@ void draw() {
   if (gameState == 4) {
     background(0);
     textSize(25);
-    fill(255);
     //alpha += 50;
-    text("Stage " + (stageNumber + 1), 450, 400);
+    fill(255);
+    if (stageNumber == 5) {
+      fill(255, 0, 0);
+      textSize(100);
+      text("Boss", textx, 400);
+      fill(255);
+    } else {
+      text("Stage " + (stageNumber + 1), textx, 400);
+    }
+    textx += 5;
     textSize(12);
     player.display();
     bulletsInStage.clear();
@@ -476,8 +516,36 @@ void draw() {
       stageNumber += 1;
       setupStage(stageNumber);
       gameState = 2;
+      textx = 0;
     }
   }
+
+  if (gameState == 5) {
+    background(255);
+    fill(0);
+    textSize(100);
+    text("You Won!", 375, 400);
+    textSize(20);
+    text("press r to play again", 500, 500);
+    textSize(12);
+    if (key == 'r') {
+      reset();
+      gameState = 1;
+    }
+  }
+
+  if (gameState == 6) {
+    background(255);
+    fill(0);
+    textSize(25);
+    text("g: god mode", 450, 350);
+    text("q: skip stage", 450, 400);
+    text("b: deplete half of boss health", 450, 450);
+    text("z: go back", 450, 500);
+    if (key == 'z') {
+      gameState = 1;
+    }
+    textSize(12);
+  }
   //timeBetweenStages -= 1;
-  println(gameState);
 }

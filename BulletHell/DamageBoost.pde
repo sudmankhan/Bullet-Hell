@@ -12,7 +12,11 @@ public class DamageBoost{
   
   void display() {
     timer++;
-    fill(255, 0, 0); //Red
+    fill(255,0, 0); //Green
     rect(x, y, 50, 50);
+    fill(0);
+    textSize(12);
+    text("DMG+", x+5,y+25);
+    textSize(12);
   }
 }

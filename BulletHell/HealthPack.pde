@@ -13,5 +13,9 @@ public class HealthPack{
     timer++;
     fill(0,255, 0); //Green
     rect(x, y, 50, 50);
+    fill(0);
+    textSize(20);
+    text("HP+", x+5,y+25);
+    textSize(12);
   }
 }
