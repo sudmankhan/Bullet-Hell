@@ -467,7 +467,6 @@ void draw() {
         }
       }
     }
-  }
 
   if (gameState == 3) {
     background(0);
