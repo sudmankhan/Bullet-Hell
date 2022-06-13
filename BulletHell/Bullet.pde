@@ -6,23 +6,26 @@ public class Bullet {
   int bulletTrack;
   int damage;
   int type = 0;
+  float angle;
+  float angle2;
   
-  public Bullet(int x, int y) {
+  public Bullet(int x, int y, color colr) {
     xpos = x;
     ypos = y;
     bulletXSpeed = 10;
     bulletYSpeed = 1;
     countdown = 0;
     damage = 1;
+    clr = colr;
   }
 
   public Bullet(int x, int y, int targetX, int targetY, color colr) {
     xpos = x;
     ypos = y;
-    float angle = PI / 2; //In the event that some weird glitch happens, let's hope that the bullets will at least shoot up.
-    float angle2 = angle;
+    angle = PI / 2; //In the event that some weird glitch happens, let's hope that the bullets will at least shoot up.
+    angle2 = angle;
     if (type == 0) {
-    if (targetX - xpos != 0) {
+    //if (targetX - xpos != 0) {
       angle = atan(Math.abs((targetY - ypos))/Math.abs((targetX - xpos))); //finds a first quadrant angle.
       //System.out.println("Angle:" + (angle * 180 / PI));
       if ((targetY < ypos) && (targetX < xpos)) { //if shooting top left...?
@@ -37,7 +40,7 @@ public class Bullet {
       } else {
         angle2 = angle;
       }
-    }
+    //}
     bulletXSpeed = 5 * cos(angle2);
     bulletYSpeed = -5 * sin(angle2);
     //System.out.println("bulletYSpeed: " + bulletYSpeed);
@@ -47,7 +50,16 @@ public class Bullet {
     damage = 1;
     }
   }
-
+  
+  public Bullet(int x, int y, float ang, color colr) {
+    xpos = x;
+    ypos = y;
+    ang *= (PI/180);
+    angle = ang;
+    bulletXSpeed = 5 * cos(angle);
+    bulletYSpeed = -5 * sin(angle);
+    clr = colr;
+  }
 
   void display() {
     //stroke(1);

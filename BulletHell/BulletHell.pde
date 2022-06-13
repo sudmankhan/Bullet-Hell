@@ -1,5 +1,6 @@
 int stageNumber;
 ArrayList<Enemy> enemiesInStage;
+//ArrayList<ScatterEnemy> scatterEnemiesInStage;
 ArrayList<Bullet> bulletsInStage;
 ArrayList<Bullet> enemyBulletsInStage;
 ArrayList<HomingEnemy> homingEnemiesInStage;
@@ -16,6 +17,10 @@ int poweruprng = 0;
 boolean healthCollected = false;
 boolean damageCollected = false;
 int extraDamage;
+int skipStageCountdown;
+boolean canSkip;
+int timeBetweenStages;
+float alpha;
 
 void setup() {
   size(1200, 800);
@@ -33,6 +38,9 @@ void setup() {
   godMode = false; //Godmode
   boss = new Boss(550, 75);
   extraDamage = 0;
+  skipStageCountdown = 0;
+  canSkip = false;
+  alpha = 0;
 }
 
 void mousePressed() {
@@ -133,6 +141,9 @@ void keyPressed() {
   if (key == 'g') {
     godMode = !godMode;
   }
+  if (key == 'q') {
+    canSkip = true;
+  }
 }
 
 
@@ -163,9 +174,11 @@ void reset() {
   stageNumber = 0;
   healthCollected = false;
   timer = 0;
+  canSkip = false;
 }
 
 void draw() {
+  //println(stageNumber);
   timer++;
   if (gameState == 1) {
     background(0);
@@ -271,6 +284,58 @@ void draw() {
       text("You died!", 20, 780);
       player.dead = true;
     }
+    }
+    if (stageNumber <= 5) {
+      if (enemiesInStage.size() == 0) {
+        gameState = 4;
+        //text("stage" + stageNumber+1,400,600);
+        //delay(500);
+        //text("stage" + stageNumber+1,400,600);
+        //stageNumber++;
+        //setupStage(stageNumber);
+        //text("NO", 500,500);
+      }
+      if (canSkip && skipStageCountdown == 0) {
+        enemiesInStage.clear();
+        stageNumber++;
+        setupStage(stageNumber);
+        skipStageCountdown += 10;
+        canSkip = false;
+      } else if (skipStageCountdown > 0) {
+        skipStageCountdown -= 1;
+      }
+    }
+    fill(255);
+    textSize(25);
+    text("Stage " + stageNumber, 20, 40);
+    textSize(12);
+    player.display();
+
+    //Health and Health Packs
+    if (player.health > 0) {
+      text("Player HP: " + player.health, 20, 780);
+      text("Timer: " + timer, 20, 740);
+      text("Seconds till next pack: " + (60 - (timer / 60) % 60), 20, 760); //Health pack timer. 1 every 60 seconds.
+    }
+    HealthPack health = new HealthPack(600 - 25, 400 - 25);
+    if (timer % 3600 == 0) {
+      healthCollected = false;
+    }
+    if (((timer / 60) % 60) <= 5) {
+      health.avaliable = true;
+      //healthCollected = false;
+    }
+    if (player.xPos >= health.x && player.xPos <= health.x + 50 && player.yPos >= health.y && player.yPos <= health.y + 50 && !healthCollected) {
+      player.health++;
+      healthCollected = true;
+    }
+    if (health.avaliable && !healthCollected) {
+      health.display();
+    }
+    if (player.health <= 0) {
+      text("You died!", 20, 780);
+      player.dead = true;
+    }
 
     //Enemies
     for (int i = 0; i < enemiesInStage.size(); i++) {
@@ -305,7 +370,28 @@ void draw() {
     //text(player.xPos + " " + player.yPos, 20, 120);
 
     player.shoot();
+    circle(mouseX, mouseY, 5);
+    if (keysPressed[0]) {
+      player.moveUp();
+    }
+    if (keysPressed[1]) {
+      player.moveLeft();
+    }
+    if (keysPressed[2]) {
+      player.moveDown();
+    }
+    if (keysPressed[3]) {
+      player.moveRight();
+    }
 
+    player.slowMode = keysPressed[4];
+
+    fill(255);
+    //text(bulletsInStage.size(), 20, 20);
+    //text(mouseX + " " + mouseY, 20, 100);
+    //text(player.xPos + " " + player.yPos, 20, 120);
+
+    player.shoot();
     for (int i = 0; i < enemiesInStage.size(); i++) {
       int enemycenterX = enemiesInStage.get(i).xPos + 15;
       int enemycenterY = enemiesInStage.get(i).yPos + 15;
@@ -330,8 +416,6 @@ void draw() {
         enemy.shoot(player);
       }
       enemy.randomMovement(); //Random Movement
-
-      //Enemies shooting bullets
       for (int j = 0; j < enemy.enemyBullet.size(); j++) {
         Bullet temp = enemy.enemyBullet.get(j);
         if (Math.abs(player.xPos - temp.xpos) <= 15 && Math.abs(player.yPos - temp.ypos) <= 15) {
@@ -342,7 +426,49 @@ void draw() {
         }
       }
     }
+
+    //for (int i = 0; i < scatterEnemiesInStage.size(); i++) {
+    //  Enemy enemy = scatterEnemiesInStage.get(i);
+
+    //  //So long as the player isn't dead, shoot it.
+    //  if (!player.isDead()) {
+    //    //if (shootrng == 0) {
+    //    enemy.shoot(player);
+    //    //}
+    //    //if (shootrng == 1) {
+    //    //enemy.shootHoming(player);
+    //    //System.out.println("SHOOTING HOMING");
+    //    //}
+    //  }
+    //  //text("Enemy Timer: " + enemy.countdown, 20, 760);
+    //  enemy.randomMovement(); //random Movement...?
+    //  //print(enemy.enemyBullet.size());
+    //  for (int j = 0; j < enemy.enemyBullet.size(); j++) {
+    //    Bullet temp = enemy.enemyBullet.get(j);
+    //    if (Math.abs(player.xPos - temp.xpos) <= 15 && Math.abs(player.yPos - temp.ypos) <= 15) {
+    //      if (!godMode) {
+    //        player.takeDamage(temp.damage);
+    //      }
+    //      enemy.enemyBullet.remove(temp);
+    //    }
+    //  }
+    //}
+
+    if (stageNumber == 6) {
+      boss.display();
+      boss.shootSpiral();
+      for (int j = 0; j < boss.enemyBullet.size(); j++) {
+        Bullet temp = boss.enemyBullet.get(j);
+        if (Math.abs(player.xPos - temp.xpos) <= 15 && Math.abs(player.yPos - temp.ypos) <= 15) {
+          if (!godMode) {
+            player.takeDamage(1);
+          }
+          boss.enemyBullet.remove(temp);
+        }
+      }
+    }
   }
+
   if (gameState == 3) {
     background(0);
     fill(255, 0, 0);
@@ -356,4 +482,39 @@ void draw() {
       gameState = 1;
     }
   }
+
+  if (gameState == 4) {
+    background(0);
+    textSize(25);
+    fill(255);
+    //alpha += 50;
+    text("Stage " + (stageNumber + 1), 450, 400);
+    textSize(12);
+    player.display();
+    bulletsInStage.clear();
+    if (keysPressed[0]) {
+      player.moveUp();
+    }
+    if (keysPressed[1]) {
+      player.moveLeft();
+    }
+    if (keysPressed[2]) {
+      player.moveDown();
+    }
+    if (keysPressed[3]) {
+      player.moveRight();
+    }
+    if (timeBetweenStages == 0) {
+      timeBetweenStages += 250;
+    } else {
+      timeBetweenStages -= 1;
+    }
+    if (timeBetweenStages == 0) {
+      stageNumber += 1;
+      setupStage(stageNumber);
+      gameState = 2;
+    }
+  }
+  //timeBetweenStages -= 1;
+  println(gameState);
 }
