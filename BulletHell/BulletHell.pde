@@ -3,7 +3,6 @@ ArrayList<Enemy> enemiesInStage;
 //ArrayList<ScatterEnemy> scatterEnemiesInStage;
 ArrayList<Bullet> bulletsInStage;
 ArrayList<Bullet> enemyBulletsInStage;
-ArrayList<HomingEnemy> homingEnemiesInStage;
 Player player;
 boolean[] keysPressed;
 boolean mouseHeld;
@@ -28,7 +27,6 @@ void setup() {
   keysPressed = new boolean[5]; 
   player = new Player(600, 600, 5);
   enemiesInStage = new ArrayList<Enemy>();
-  homingEnemiesInStage = new ArrayList<HomingEnemy>();
   bulletsInStage = new ArrayList<Bullet>();
   enemyBulletsInStage = new ArrayList<Bullet>();
   playerC = color(0, 162, 255);
@@ -365,9 +363,6 @@ void draw() {
     player.slowMode = keysPressed[4];
 
     fill(255);
-    //text(bulletsInStage.size(), 20, 20);
-    //text(mouseX + " " + mouseY, 20, 100);
-    //text(player.xPos + " " + player.yPos, 20, 120);
 
     player.shoot();
     circle(mouseX, mouseY, 5);
@@ -385,11 +380,7 @@ void draw() {
     }
 
     player.slowMode = keysPressed[4];
-
     fill(255);
-    //text(bulletsInStage.size(), 20, 20);
-    //text(mouseX + " " + mouseY, 20, 100);
-    //text(player.xPos + " " + player.yPos, 20, 120);
 
     player.shoot();
     for (int i = 0; i < enemiesInStage.size(); i++) {
@@ -426,33 +417,6 @@ void draw() {
         }
       }
     }
-
-    //for (int i = 0; i < scatterEnemiesInStage.size(); i++) {
-    //  Enemy enemy = scatterEnemiesInStage.get(i);
-
-    //  //So long as the player isn't dead, shoot it.
-    //  if (!player.isDead()) {
-    //    //if (shootrng == 0) {
-    //    enemy.shoot(player);
-    //    //}
-    //    //if (shootrng == 1) {
-    //    //enemy.shootHoming(player);
-    //    //System.out.println("SHOOTING HOMING");
-    //    //}
-    //  }
-    //  //text("Enemy Timer: " + enemy.countdown, 20, 760);
-    //  enemy.randomMovement(); //random Movement...?
-    //  //print(enemy.enemyBullet.size());
-    //  for (int j = 0; j < enemy.enemyBullet.size(); j++) {
-    //    Bullet temp = enemy.enemyBullet.get(j);
-    //    if (Math.abs(player.xPos - temp.xpos) <= 15 && Math.abs(player.yPos - temp.ypos) <= 15) {
-    //      if (!godMode) {
-    //        player.takeDamage(temp.damage);
-    //      }
-    //      enemy.enemyBullet.remove(temp);
-    //    }
-    //  }
-    //}
 
     if (stageNumber == 6) {
       boss.display();
