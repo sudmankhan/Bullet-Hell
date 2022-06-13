@@ -55,3 +55,6 @@ Sudman - Different bullet types is going to be difficult to implement because of
 
 6/7-6/9
 Sudman - Added a skip stage button to easily access stages instead of suffering. Working on a boss. Boss display has been done a while ago (just a rectangle for now, a placeholder). Thought of 5 attacks for now. Done implementing one (a spiral attack thing) but may need to tweak later for difficulty purposes.
+
+6/10-6/12
+Fixed up the skip stages a bit. Also added a cheat menu to see the keys for various cheats like god mode and skip stage. Finished the boss. Now has a move where it teleports around and shoots bullets in circles. Added the ability to summon minions during the spiral attack so you can't just stand still and cheese the boss. Also added a shield when it gets to half health.
